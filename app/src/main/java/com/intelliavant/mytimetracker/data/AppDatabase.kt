@@ -18,6 +18,7 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var instance: AppDatabase? = null
 
+        // https://gorillalogic.com/blog/android-room-tutorial-simplifying-how-you-work-with-app-data/
         fun getInstance(context: Context): AppDatabase {
             return instance ?: synchronized(this) {
                 instance?: buildDatabase(context).also { instance = it }
