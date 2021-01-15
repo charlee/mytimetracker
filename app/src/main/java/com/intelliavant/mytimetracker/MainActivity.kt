@@ -6,8 +6,11 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.intelliavant.mytimetracker.data.AppDatabase
 
 class MainActivity : AppCompatActivity() {
+
+    private var db: AppDatabase ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
