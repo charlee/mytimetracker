@@ -2,6 +2,7 @@ package com.intelliavant.mytimetracker.data
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import java.util.*
 
@@ -25,7 +26,10 @@ interface WorkTypeDao {
     @Insert
     fun insert(workType: WorkType)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(workTypes: List<WorkType>)
 
     @Query("SELECT * FROM work_type")
     fun getAll(): List<WorkType>
+
 }

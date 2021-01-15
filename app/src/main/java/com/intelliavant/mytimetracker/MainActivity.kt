@@ -1,11 +1,13 @@
 package com.intelliavant.mytimetracker
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.intelliavant.mytimetracker.data.AppDatabase
 
 class MainActivity : AppCompatActivity() {
@@ -35,7 +37,14 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
+            R.id.action_work_types -> openWorkTypes()
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun openWorkTypes(): Boolean {
+        val intent = Intent(this, WorkTypeActivity::class.java)
+        startActivity(intent)
+        return true
     }
 }

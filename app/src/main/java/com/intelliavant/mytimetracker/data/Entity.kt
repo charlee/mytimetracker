@@ -10,7 +10,7 @@ import java.util.*
     indices = [Index("worktype_id")]
 )
 data class Work(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int?,
     val name: String,
 
     val date: Date,
@@ -21,7 +21,7 @@ data class Work(
 
 @Entity(tableName = "work_type")
 data class WorkType(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int?,
 
     val name: String,
 
