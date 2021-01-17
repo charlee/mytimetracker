@@ -47,9 +47,9 @@ abstract class AppDatabase : RoomDatabase() {
 
 
         val PREPOPULATED_WORKTYPES = listOf(
-            WorkType(null, "Computer", Color.valueOf(0xffff0000), true),
-            WorkType(null, "English", Color.valueOf(0xff00ff00), true),
-            WorkType(null, "English", Color.valueOf(0xff0000ff), true),
+            WorkType(null, "Computer", Color.valueOf(1.0f, 0.0f, 0.0f), true),
+            WorkType(null, "English", Color.valueOf(0.0f, 1.0f, 0.0f), true),
+            WorkType(null, "Math", Color.valueOf(0.0f, 0.0f, 1.0f), true),
         )
     }
 
