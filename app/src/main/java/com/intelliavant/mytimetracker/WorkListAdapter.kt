@@ -9,20 +9,20 @@ import com.intelliavant.mytimetracker.data.Work
 
 class WorkListAdapter(private val works: Array<Work>): RecyclerView.Adapter<WorkListAdapter.ViewHolder>() {
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val textView: TextView
+        val textView1: TextView
 
         init {
-            textView = view.findViewById(R.id.textView)
+            textView1 = view.findViewById(R.id.textView)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.work_list_list_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.work_list_item, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = works[position].name
+        holder.textView1.text = works[position].name
     }
 
     override fun getItemCount() = works.size

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.intelliavant.mytimetracker.viewmodel.WorkTypeViewModel
@@ -29,6 +30,7 @@ class NewWorkBottomSheetFragment : BottomSheetDialogFragment() {
         val view = inflater.inflate(R.layout.new_work_bottom_sheet, container, false)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.work_types_recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity().applicationContext)
 
         workTypeViewModel.workTypes.observe(this, Observer {
             Log.d("STOPWATCH", it.toString())
