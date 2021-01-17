@@ -9,10 +9,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.intelliavant.mytimetracker.data.WorkType
 import com.intelliavant.mytimetracker.databinding.WorkTypeListItemBinding
-import com.intelliavant.mytimetracker.viewmodel.WorkTypeListViewModel
 import com.intelliavant.mytimetracker.viewmodel.WorkTypeViewModel
 
-class WorkTypeListAdapter(private val workTypes: List<WorkType>) :
+class WorkTypeListAdapter :
     ListAdapter<WorkType, WorkTypeListAdapter.ViewHolder>(
         WorkTypeDiffCallback()
     ) {
@@ -30,6 +29,7 @@ class WorkTypeListAdapter(private val workTypes: List<WorkType>) :
         fun bind(workType: WorkType) {
             with(binding) {
                 viewModel = WorkTypeViewModel(workType)
+                executePendingBindings()
             }
         }
     }
@@ -46,10 +46,9 @@ class WorkTypeListAdapter(private val workTypes: List<WorkType>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        Log.d("STOPWATCH", "onBindViewHolder: $position")
         holder.bind(getItem(position))
     }
-
-    override fun getItemCount() = workTypes.size
 }
 
 private class WorkTypeDiffCallback : DiffUtil.ItemCallback<WorkType>() {
