@@ -3,13 +3,9 @@ package com.intelliavant.mytimetracker
 import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.intelliavant.mytimetracker.data.AppDatabase
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,8 +19,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            val fragment = NewWorkBottomSheetFragment()
+        // show the work type bottom sheet when FAB is clicked
+        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
+            val fragment = WorkTypeListFragment()
             fragment.show(supportFragmentManager, fragment.tag)
         }
     }

@@ -2,10 +2,12 @@ package com.intelliavant.mytimetracker.data
 
 import android.graphics.Color
 import androidx.room.*
+import java.time.LocalDateTime
 import java.util.*
 
 
 @Entity(
+    tableName = "work",
     foreignKeys = [ForeignKey(entity = WorkType::class, parentColumns = ["id"], childColumns = ["worktype_id"])],
     indices = [Index("worktype_id")]
 )

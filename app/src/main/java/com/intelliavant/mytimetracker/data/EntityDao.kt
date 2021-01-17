@@ -15,7 +15,7 @@ interface WorkDao {
     fun insert(work: Work)
 
     @Query("SELECT * FROM work")
-    fun getAll(): List<Work>
+    fun getWorks(): Flow<List<Work>>
 
     @Query("SELECT * FROM work WHERE date=:date")
     fun findByDate(date: Date): List<Work>
