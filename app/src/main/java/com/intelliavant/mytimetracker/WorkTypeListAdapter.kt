@@ -1,5 +1,6 @@
 package com.intelliavant.mytimetracker
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,9 @@ class WorkTypeListAdapter(private val workTypes: List<WorkType>): RecyclerView.A
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.work_type_list_item, parent, false)
+        view.setOnClickListener {
+            Log.d("STOPWATCH", it.toString() + " clicked")
+        }
         return ViewHolder(view)
     }
 
