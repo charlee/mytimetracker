@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.intelliavant.mytimetracker.databinding.FragmentWorkTypeListBinding
+import com.intelliavant.mytimetracker.viewmodel.WorkListViewModel
 import com.intelliavant.mytimetracker.viewmodel.WorkTypeListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,6 +19,7 @@ class WorkTypeListFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentWorkTypeListBinding
     private val workTypeListViewModel: WorkTypeListViewModel by viewModels()
+    private val workListViewModel: WorkListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,8 +27,13 @@ class WorkTypeListFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = FragmentWorkTypeListBinding.inflate(inflater, container, false)
         val adapter = WorkTypeListAdapter()
+        adapter.setOnWorkTypeClickListener { workType ->
+            Log.d("STOPWATCH", "workType ${workType.id} clicked")
+            workListViewModel.createWork(workType)
+        }
+
+        binding = FragmentWorkTypeListBinding.inflate(inflater, container, false)
         binding.workTypeList.adapter = adapter
 
         workTypeListViewModel.workTypes.observe(this, Observer {

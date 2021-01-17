@@ -8,4 +8,7 @@ class WorkTypeViewModel(workType: WorkType) {
         get() = _workType.id
     val name
         get() = _workType.name
+    val workType
+        get() = _workType
+
 }

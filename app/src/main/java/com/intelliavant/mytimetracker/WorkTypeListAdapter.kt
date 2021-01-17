@@ -11,17 +11,22 @@ import com.intelliavant.mytimetracker.data.WorkType
 import com.intelliavant.mytimetracker.databinding.WorkTypeListItemBinding
 import com.intelliavant.mytimetracker.viewmodel.WorkTypeViewModel
 
+typealias OnWorkTypeClickListener = (workType: WorkType) -> Unit
+
 class WorkTypeListAdapter :
     ListAdapter<WorkType, WorkTypeListAdapter.ViewHolder>(
         WorkTypeDiffCallback()
     ) {
 
-    class ViewHolder(private val binding: WorkTypeListItemBinding) :
+    private var onWorkTypeClickListener: OnWorkTypeClickListener? = null
+
+    inner class ViewHolder(private val binding: WorkTypeListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.setClickListener { view ->
-                binding.viewModel?.id.let { workTypeId ->
-                    Log.d("STOPWATCH", "work type $workTypeId clicked")
+            binding.setClickListener {
+                Log.d("STOPWATCH", "WorkTypeListAdapter.ViewHolder.onClick")
+                binding.viewModel?.let {
+                    onWorkTypeClickListener?.invoke(it.workType)
                 }
             }
         }
@@ -32,6 +37,10 @@ class WorkTypeListAdapter :
                 executePendingBindings()
             }
         }
+    }
+
+    fun setOnWorkTypeClickListener(listener: (workType: WorkType) -> Unit) {
+        onWorkTypeClickListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

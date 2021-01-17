@@ -12,7 +12,7 @@ import java.util.*
 interface WorkDao {
 
     @Insert
-    fun insert(work: Work)
+    suspend fun insert(work: Work)
 
     @Query("SELECT * FROM work")
     fun getWorks(): Flow<List<Work>>
@@ -26,10 +26,10 @@ interface WorkDao {
 interface WorkTypeDao {
 
     @Insert
-    fun insert(workType: WorkType)
+    suspend fun insert(workType: WorkType)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(workTypes: List<WorkType>)
+    suspend fun insertAll(workTypes: List<WorkType>)
 
     @Query("SELECT * FROM work_type")
     fun getWorkTypes(): Flow<List<WorkType>>
