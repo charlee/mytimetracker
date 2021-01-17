@@ -4,8 +4,7 @@
     <string name="action_activity_types">Activity Types</string>
 
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="work_list_fragment_label">Work List</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 

@@ -38,14 +38,7 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
-            R.id.action_work_types -> openWorkTypes()
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun openWorkTypes(): Boolean {
-        val intent = Intent(this, WorkTypeActivity::class.java)
-        startActivity(intent)
-        return true
     }
 }

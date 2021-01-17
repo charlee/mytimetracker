@@ -36,7 +36,7 @@ class WorkTypeListFragment : BottomSheetDialogFragment() {
         binding = FragmentWorkTypeListBinding.inflate(inflater, container, false)
         binding.workTypeList.adapter = adapter
 
-        workTypeListViewModel.workTypes.observe(this, Observer {
+        workTypeListViewModel.workTypes.observe(viewLifecycleOwner, Observer {
             Log.d("STOPWATCH", it.toString())
             adapter.submitList(it)
         })

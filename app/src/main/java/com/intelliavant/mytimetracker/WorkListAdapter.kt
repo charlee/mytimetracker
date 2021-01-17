@@ -1,29 +1,56 @@
 package com.intelliavant.mytimetracker
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.intelliavant.mytimetracker.data.Work
+import com.intelliavant.mytimetracker.databinding.WorkListItemBinding
+import com.intelliavant.mytimetracker.viewmodel.WorkViewModel
 
-class WorkListAdapter(private val works: Array<Work>): RecyclerView.Adapter<WorkListAdapter.ViewHolder>() {
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val textView1: TextView
+class WorkListAdapter() :
+    ListAdapter<Work, WorkListAdapter.ViewHolder>(
+        WorkDiffCallback()
+    ) {
+
+    class ViewHolder(private val binding: WorkListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
-            textView1 = view.findViewById(R.id.textView)
+        }
+
+        fun bind(work: Work) {
+            with(binding) {
+                viewModel = WorkViewModel(work)
+                executePendingBindings()
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.work_list_item, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.work_list_item,
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView1.text = works[position].name
+        holder.bind(getItem(position))
+    }
+}
+
+
+private class WorkDiffCallback : DiffUtil.ItemCallback<Work>() {
+    override fun areContentsTheSame(oldItem: Work, newItem: Work): Boolean {
+        return oldItem.id == newItem.id
     }
 
-    override fun getItemCount() = works.size
+    override fun areItemsTheSame(oldItem: Work, newItem: Work): Boolean {
+        return oldItem == newItem
+    }
 }
