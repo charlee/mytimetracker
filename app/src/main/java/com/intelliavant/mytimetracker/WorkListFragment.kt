@@ -28,13 +28,16 @@ class WorkListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val adapter= WorkListAdapter()
+        val adapter = WorkListAdapter()
 
         binding = FragmentWorkListBinding.inflate(inflater, container, false)
         binding.workList.adapter = adapter
 
         workListViewModel.works.observe(viewLifecycleOwner, {
-            Log.d("STOPWATCH", "WorkListFragment workListViewModel.works.observe, it=${it.toString()}")
+            Log.d(
+                "STOPWATCH",
+                "WorkListFragment workListViewModel.works.observe, it=${it.toString()}"
+            )
             adapter.submitList(it)
         })
 

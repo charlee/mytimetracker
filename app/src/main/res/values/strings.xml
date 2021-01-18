@@ -11,7 +11,7 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
-    <string name="notification_channel_id">com.intelliavant.my_time_tracker/stopwatch_channel</string>
+    <string name="notification_channel_id">com.intelliavant.mytimetracker/stopwatch_channel</string>
     <string name="notification_channel_name">Stopwatch</string>
     <string name="notification_channel_description">Show stopwatch notification</string>
     <string name="pause">Pause</string>
@@ -19,5 +19,8 @@
 
     <string name="intent_action_start_stopwatch">INTENT_ACTION_START_STOPWATCH</string>
     <string name="intent_action_pause_resume_stopwatch">INTENT_ACTION_PAUSE_RESUME_STOPWATCH</string>
+    <string name="intent_action_time_elasped">INTENT_ACTION_TIME_ELASPED</string>
     <string name="choose_activity_type">Choose activity type</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -12,13 +12,16 @@ import java.util.*
 interface WorkDao {
 
     @Insert
-    suspend fun insert(work: Work)
+    suspend fun insert(work: Work): Long
 
     @Query("SELECT * FROM work")
     fun getWorks(): Flow<List<Work>>
 
     @Query("SELECT * FROM work WHERE date=:date")
     fun findByDate(date: Date): List<Work>
+
+    @Query("SELECT * FROM work WHERE id=:id")
+    fun findById(id: Long): Flow<Work>
 }
 
 

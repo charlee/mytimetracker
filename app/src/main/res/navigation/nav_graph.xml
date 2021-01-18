@@ -3,11 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/WorkListFragment">
+    app:startDestination="@id/workListFragment">
 
     <fragment
-        android:id="@+id/WorkListFragment"
+        android:id="@+id/workListFragment"
         android:name="com.intelliavant.mytimetracker.WorkListFragment"
         android:label="@string/work_list_fragment_label"
-        tools:layout="@layout/fragment_work_list"/>
+        tools:layout="@layout/fragment_work_list">
+        <action
+            android:id="@+id/action_workListFragment_to_stopwatchFragment"
+            app:destination="@id/stopwatchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/stopwatchFragment"
+        android:name="com.intelliavant.mytimetracker.StopwatchFragment"
+        android:label="fragment_stopwatch"
+        tools:layout="@layout/fragment_stopwatch" >
+        <action
+            android:id="@+id/action_stopwatchFragment_to_workListFragment"
+            app:destination="@id/workListFragment" />
+        <argument
+            android:name="workId"
+            app:argType="long" />
+    </fragment>
 </navigation>

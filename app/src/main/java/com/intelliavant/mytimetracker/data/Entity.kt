@@ -12,18 +12,18 @@ import java.util.*
     indices = [Index("worktype_id")]
 )
 data class Work(
-    @PrimaryKey(autoGenerate = true) val id: Int?,
+    @PrimaryKey(autoGenerate = true) val id: Long?,
     val name: String,
 
     val date: Date,
 
     val duration: Int,
-    @ColumnInfo(name = "worktype_id") val workTypeId: Int
+    @ColumnInfo(name = "worktype_id") val workTypeId: Long
 )
 
 @Entity(tableName = "work_type")
 data class WorkType(
-    @PrimaryKey(autoGenerate = true) val id: Int?,
+    @PrimaryKey(autoGenerate = true) val id: Long?,
 
     val name: String,
 

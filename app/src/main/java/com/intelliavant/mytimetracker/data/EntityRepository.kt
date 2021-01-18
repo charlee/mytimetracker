@@ -1,8 +1,12 @@
 package com.intelliavant.mytimetracker.data
 
+import kotlinx.coroutines.Dispatchers
+import java.lang.IllegalArgumentException
 import java.sql.Timestamp
 import java.time.LocalDateTime
 import java.util.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,13 +20,19 @@ class WorkTypeRepository @Inject constructor(private val workTypeDao: WorkTypeDa
 @Singleton
 class WorkRepository @Inject constructor(private val workDao: WorkDao) {
 
-    suspend fun createWork(workType: WorkType) {
-        if (workType.id == null) return
+    suspend fun createWork(workType: WorkType): Long {
+        if (workType.id == null) throw IllegalArgumentException("workType does not exist")
 
         val current = Date()
         val work = Work(null, workType.name, current, 0, workType.id)
 
-        workDao.insert(work)
+        return withContext(Dispatchers.IO) {
+            workDao.insert(work)
+        }
+    }
+
+    fun findById(id: Long): Flow<Work> {
+        return workDao.findById(id)
     }
 
     fun getWorks() = workDao.getWorks()

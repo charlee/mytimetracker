@@ -1,7 +1,15 @@
 package com.intelliavant.mytimetracker
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.Service
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.IBinder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
@@ -12,10 +20,34 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private var db: AppDatabase ?= null
+    private fun createNotificationChannel() {
+        val channelId = getString(R.string.notification_channel_id)
+        val name = getString(R.string.notification_channel_name)
+        val descriptionText = getString(R.string.notification_channel_description)
+        val mChannel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_DEFAULT)
+        mChannel.description = descriptionText
+
+        // Register the channel with the system; you can't change the importance
+        // or other notification behaviors after this
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(mChannel)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Request foereground service permission
+        requestPermissions(
+            arrayOf(android.Manifest.permission.FOREGROUND_SERVICE),
+            PackageManager.PERMISSION_GRANTED
+        )
+
+        // create notification channel
+        createNotificationChannel()
+
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
