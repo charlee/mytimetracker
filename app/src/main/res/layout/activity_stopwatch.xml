@@ -12,6 +12,8 @@
         <variable
             name="timerText"
             type="String" />
+
+        <variable name="isRunning" type="Boolean"/>
     </data>
 
     <LinearLayout
@@ -63,7 +65,7 @@
                 android:id="@+id/pause_resume_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_play_arrow_64" />
+                android:src="@{isRunning ? @drawable/ic_baseline_pause_64 : @drawable/ic_baseline_play_arrow_64}" />
 
             <Button
                 android:id="@+id/stop_button"

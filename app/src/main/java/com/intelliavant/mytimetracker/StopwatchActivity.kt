@@ -5,14 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
 import com.intelliavant.mytimetracker.databinding.ActivityStopwatchBinding
+import com.intelliavant.mytimetracker.utils.formatTime
 import com.intelliavant.mytimetracker.viewmodel.WorkListViewModel
+import com.intelliavant.mytimetracker.viewmodel.WorkViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,6 +21,7 @@ class StopwatchActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStopwatchBinding
 
     private var mBound = false
+    private var isRunning = false
     private lateinit var mService: StopwatchService
     private lateinit var broadcastReceiver: BroadcastReceiver
 
@@ -41,9 +40,14 @@ class StopwatchActivity : AppCompatActivity() {
     }
 
     private fun registerBroadcastReceiver() {
-        broadcastReceiver = object: BroadcastReceiver() {
+        broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
-                TODO("Not yet implemented")
+                intent?.extras?.apply {
+                    isRunning = getBoolean("isRunning")
+                    val elaspedMilliseconds = getLong("elapsedMilliseconds")
+                    binding.timerText  = formatTime(elaspedMilliseconds)
+                    binding.isRunning = isRunning
+                }
             }
         }
 
@@ -58,12 +62,12 @@ class StopwatchActivity : AppCompatActivity() {
     }
 
 
-    private fun startStopwatch(activityName: String?) {
+    private fun startStopwatch(workName: String?) {
         Log.d("STOPWATCH", "MainActivity::startStopwatch()")
 
         val serviceIntent = Intent(this, StopwatchService::class.java).apply {
             action = getString(R.string.intent_action_start_stopwatch)
-            putExtra("activity_name", activityName)
+            putExtra("work_name", workName)
         }
         startService(serviceIntent)
 
@@ -93,23 +97,34 @@ class StopwatchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        registerBroadcastReceiver()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_stopwatch)
 
-        workId = intent.extras?.getLong("workId")
-        workId?.let {
-            workListViewModel.findById(it).observe(this, {
-                Log.d("STOPWATCH", "StopwatchFragment started, work = $it")
-            })
+        binding.pauseResumeButton.setOnClickListener {
+            if (isRunning) {
+                pauseStopwatch()
+            } else {
+                resumeStopwatch()
+            }
         }
 
-        registerBroadcastReceiver()
-        // start the service
-        // TODO: where's the work model?
+        workId = intent.extras?.getLong("workId")
+        workId?.let { workId ->
+            workListViewModel.findById(workId).observe(this) { work ->
+                Log.d("STOPWATCH", "StopwatchFragment started, work = $work")
+                binding.viewModel = WorkViewModel(work)
+                binding.timerText = formatTime(0)
+
+                // start the service
+                startStopwatch(work.name)
+            }
+        }
     }
 
     override fun onDestroy() {
         unregisterBroadcastReceiver()
+        stopStopwatch()
         super.onDestroy()
     }
 }

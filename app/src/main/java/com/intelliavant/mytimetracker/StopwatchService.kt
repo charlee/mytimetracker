@@ -11,6 +11,7 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.common.base.Stopwatch
+import com.intelliavant.mytimetracker.utils.formatTime
 import java.lang.StringBuilder
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -20,7 +21,7 @@ class StopwatchService : Service() {
     private val timer: Timer = Timer()
     private val NOTIFICATION_ID = 101
     private var currentStopwatchSec: Long = -1;
-    private var activityName: String? = null
+    private var workName: String? = null
 
     private val binder = StopwatchServiceBinder()
 
@@ -40,12 +41,8 @@ class StopwatchService : Service() {
                 val sec = elapsedMilliseconds / 1000;
 
                 if (currentStopwatchSec != sec) {
-                    // send elapsed time back to `MainActivity`
-                    val elapsedMilliseconds = stopwatch.elapsed(TimeUnit.MILLISECONDS)
-                    val timerIntent = Intent()
-                    timerIntent.action = "TimerElapsed"
-                    timerIntent.putExtra("elapsedMilliseconds", elapsedMilliseconds)
-                    sendBroadcast(timerIntent)
+                    // send elapsed time back to `StopwatchActivity`
+                    broadcastStatus()
 
                     // Update notification
                     updateNotification()
@@ -58,13 +55,13 @@ class StopwatchService : Service() {
         startForeground(NOTIFICATION_ID, getNotification())
     }
 
-    private fun formatTime(milliseconds: Long): String {
-        val secs = milliseconds / 1000;
-        val hours = (secs / 3600).toString().padStart(2, '0');
-        val minutes = ((secs % 3600) / 60).toString().padStart(2, '0');
-        val seconds = (secs % 60).toString().padStart(2, '0');
-
-        return "$hours:$minutes:$seconds";
+    private fun broadcastStatus() {
+        val elapsedMilliseconds = stopwatch.elapsed(TimeUnit.MILLISECONDS)
+        val timerIntent = Intent()
+        timerIntent.action = getString(R.string.intent_action_time_elasped)
+        timerIntent.putExtra("elapsedMilliseconds", elapsedMilliseconds)
+        timerIntent.putExtra("isRunning", stopwatch.isRunning)
+        sendBroadcast(timerIntent)
     }
 
     private fun updateNotification() {
@@ -94,8 +91,8 @@ class StopwatchService : Service() {
         val actionPendingIntent = PendingIntent.getService(this, 0, actionIntent, 0)
 
         val contentBuilder: StringBuilder = StringBuilder()
-        if (activityName != null) {
-            contentBuilder.append(activityName)
+        if (workName != null) {
+            contentBuilder.append(workName)
             contentBuilder.append(": ")
         }
         contentBuilder.append(formatTime(stopwatch.elapsed(TimeUnit.MILLISECONDS)))
@@ -126,8 +123,8 @@ class StopwatchService : Service() {
         }
 
         if (intent?.action == getString(R.string.intent_action_start_stopwatch)) {
-            activityName = intent.getStringExtra("activity_name")
-            Log.d("STOPWATCH", "activityName=${activityName}")
+            workName = intent.getStringExtra("work_name")
+            Log.d("STOPWATCH", "workName=${workName}")
         }
 
         return START_STICKY
@@ -137,6 +134,7 @@ class StopwatchService : Service() {
         Log.d("STOPWATCH", "StopwatchService.pause() called")
         if (stopwatch.isRunning) {
             stopwatch.stop()
+            broadcastStatus()
             updateNotification()
         }
     }
@@ -145,6 +143,8 @@ class StopwatchService : Service() {
         Log.d("STOPWATCH", "StopwatchService.resume() called")
         if (!stopwatch.isRunning) {
             stopwatch.start()
+            broadcastStatus()
+            updateNotification()
         }
     }
 
