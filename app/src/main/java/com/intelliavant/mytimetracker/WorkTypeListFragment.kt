@@ -1,5 +1,6 @@
 package com.intelliavant.mytimetracker
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -38,8 +39,10 @@ class WorkTypeListFragment : BottomSheetDialogFragment() {
                 val workId = workListViewModel.createWork(workType)
 
                 // Start StopwatchActivity
-                val bundle = bundleOf("workId" to workId)
-                findNavController().navigate(R.id.action_workListFragment_to_stopwatchFragment, bundle)
+                val intent = Intent(context, StopwatchActivity::class.java).apply {
+                    putExtra("workId", workId)
+                }
+                startActivity(intent)
 
                 // Close bottomsheet
                 dismiss()
