@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import com.intelliavant.mytimetracker.databinding.ActivityStopwatchBinding
 import com.intelliavant.mytimetracker.utils.formatTime
@@ -45,7 +46,7 @@ class StopwatchActivity : AppCompatActivity() {
                 intent?.extras?.apply {
                     isRunning = getBoolean("isRunning")
                     val elaspedMilliseconds = getLong("elapsedMilliseconds")
-                    binding.timerText  = formatTime(elaspedMilliseconds)
+                    binding.timerText = formatTime(elaspedMilliseconds)
                     binding.isRunning = isRunning
                 }
             }
@@ -109,6 +110,10 @@ class StopwatchActivity : AppCompatActivity() {
             }
         }
 
+        binding.stopButton.setOnClickListener {
+            stopWork()
+        }
+
         workId = intent.extras?.getLong("workId")
         workId?.let { workId ->
             workListViewModel.findById(workId).observe(this) { work ->
@@ -126,5 +131,20 @@ class StopwatchActivity : AppCompatActivity() {
         unregisterBroadcastReceiver()
         stopStopwatch()
         super.onDestroy()
+    }
+
+    private fun stopWork() {
+        AlertDialog.Builder(this)
+            .setTitle("Stop activity")
+            .setMessage("Are you sure to stop this activity?")
+            .setPositiveButton(R.string.stop) { dialog, _ ->
+                Log.d("STOPWATCH", "stop work")
+                dialog.dismiss()
+                stopStopwatch()
+                finish()
+            }
+            .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
     }
 }

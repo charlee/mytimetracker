@@ -16,6 +16,7 @@
     <string name="notification_channel_description">Show stopwatch notification</string>
     <string name="pause">Pause</string>
     <string name="resume">Resume</string>
+    <string name="stop">Stop</string>
 
     <string name="intent_action_start_stopwatch">INTENT_ACTION_START_STOPWATCH</string>
     <string name="intent_action_pause_resume_stopwatch">INTENT_ACTION_PAUSE_RESUME_STOPWATCH</string>
