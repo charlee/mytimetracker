@@ -46,6 +46,9 @@ class StopwatchService : Service() {
 
                     // Update notification
                     updateNotification()
+
+                    // Save to db
+
                     currentStopwatchSec = sec
                 }
             }

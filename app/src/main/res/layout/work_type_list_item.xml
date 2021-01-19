@@ -10,8 +10,8 @@
             type="android.view.View.OnClickListener" />
 
         <variable
-            name="viewModel"
-            type="com.intelliavant.mytimetracker.viewmodel.WorkTypeViewModel" />
+            name="workType"
+            type="com.intelliavant.mytimetracker.data.WorkType" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +39,7 @@
             android:maxLines="1"
             android:paddingStart="0dp"
             android:paddingEnd="16dp"
-            android:text="@{viewModel.name}"
+            android:text="@{workType.name}"
             android:textAppearance="?attr/textAppearanceSubtitle1"
             app:layout_constraintBottom_toBottomOf="@+id/list_item_icon"
             app:layout_constraintEnd_toEndOf="parent"

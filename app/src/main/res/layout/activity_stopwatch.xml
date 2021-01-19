@@ -6,8 +6,8 @@
     <data>
         <import type="android.view.View"/>
         <variable
-            name="viewModel"
-            type="com.intelliavant.mytimetracker.viewmodel.WorkViewModel" />
+            name="work"
+            type="com.intelliavant.mytimetracker.data.Work" />
 
         <variable
             name="timerText"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="32dp"
-            android:text="@{viewModel.work.name}"
+            android:text="@{work.name}"
             android:textAlignment="center"
             android:textAppearance="?attr/textAppearanceSubtitle1"
             app:layout_constraintTop_toTopOf="parent"

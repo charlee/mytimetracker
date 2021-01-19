@@ -118,7 +118,7 @@ class StopwatchActivity : AppCompatActivity() {
         workId?.let { workId ->
             workListViewModel.findById(workId).observe(this) { work ->
                 Log.d("STOPWATCH", "StopwatchFragment started, work = $work")
-                binding.viewModel = WorkViewModel(work)
+                binding.work = work
                 binding.timerText = formatTime(0)
 
                 // start the service

@@ -25,17 +25,15 @@ class WorkTypeListAdapter :
         init {
             binding.setClickListener {
                 Log.d("STOPWATCH", "WorkTypeListAdapter.ViewHolder.onClick")
-                binding.viewModel?.let {
-                    onWorkTypeClickListener?.invoke(it.workType)
+                binding.workType?.let {
+                    onWorkTypeClickListener?.invoke(it)
                 }
             }
         }
 
         fun bind(workType: WorkType) {
-            with(binding) {
-                viewModel = WorkTypeViewModel(workType)
-                executePendingBindings()
-            }
+            binding.workType = workType
+            binding.executePendingBindings()
         }
     }
 
