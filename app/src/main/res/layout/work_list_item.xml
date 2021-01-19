@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="viewModel" type="com.intelliavant.mytimetracker.viewmodel.WorkViewModel"/>
+        <import type="com.intelliavant.mytimetracker.utils.UtilsKt"/>
+        <variable name="work" type="com.intelliavant.mytimetracker.data.Work"/>
 
     </data>
 
@@ -24,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -32,11 +34,29 @@
             android:paddingStart="0dp"
             android:paddingEnd="16dp"
             android:textAppearance="?attr/textAppearanceSubtitle1"
-            android:text="@{viewModel.work.name}"
+            android:text="@{work.name}"
+            tools:text="Computer"
             app:layout_constraintTop_toTopOf="@+id/list_item_icon"
             app:layout_constraintBottom_toBottomOf="@+id/list_item_icon"
             app:layout_constraintStart_toEndOf="@+id/list_item_icon"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toStartOf="@id/duration" />
+
+        <TextView
+            android:id="@+id/duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:text="@{UtilsKt.formatTime(work.duration)}"
+            tools:text="01:33:00"
+            app:layout_constraintStart_toEndOf="@+id/name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

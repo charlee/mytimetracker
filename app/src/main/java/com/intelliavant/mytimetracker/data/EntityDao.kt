@@ -22,6 +22,9 @@ interface WorkDao {
 
     @Query("SELECT * FROM work WHERE id=:id")
     fun findById(id: Long): Flow<Work>
+
+    @Query("UPDATE work SET duration=:duration WHERE id=:id")
+    fun updateDuration(id: Long, duration: Long)
 }
 
 

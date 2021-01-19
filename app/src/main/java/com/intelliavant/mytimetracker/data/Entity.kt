@@ -17,7 +17,7 @@ data class Work(
 
     val date: Date,
 
-    val duration: Int,
+    val duration: Long,
     @ColumnInfo(name = "worktype_id") val workTypeId: Long
 )
 

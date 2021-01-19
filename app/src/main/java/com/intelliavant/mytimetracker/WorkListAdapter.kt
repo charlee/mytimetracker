@@ -21,10 +21,8 @@ class WorkListAdapter() :
         }
 
         fun bind(work: Work) {
-            with(binding) {
-                viewModel = WorkViewModel(work)
-                executePendingBindings()
-            }
+            binding.work = work
+            binding.executePendingBindings()
         }
     }
 

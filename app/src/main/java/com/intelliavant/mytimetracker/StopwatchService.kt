@@ -11,7 +11,9 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.common.base.Stopwatch
+import com.intelliavant.mytimetracker.data.AppDatabase
 import com.intelliavant.mytimetracker.utils.formatTime
+import dagger.hilt.android.AndroidEntryPoint
 import java.lang.StringBuilder
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -21,6 +23,8 @@ class StopwatchService : Service() {
     private val timer: Timer = Timer()
     private val NOTIFICATION_ID = 101
     private var currentStopwatchSec: Long = -1;
+
+    private var workId: Long = 0L
     private var workName: String? = null
 
     private val binder = StopwatchServiceBinder()
@@ -48,13 +52,15 @@ class StopwatchService : Service() {
                     updateNotification()
 
                     // Save to db
+                    if (workId != 0L) {
+                        AppDatabase.getInstance(applicationContext).workDao().updateDuration(workId, elapsedMilliseconds)
+                    }
 
                     currentStopwatchSec = sec
                 }
             }
         }, 0, 100)
 
-        val elapsedMilliseconds = stopwatch.elapsed(TimeUnit.MILLISECONDS)
         startForeground(NOTIFICATION_ID, getNotification())
     }
 
@@ -127,6 +133,7 @@ class StopwatchService : Service() {
 
         if (intent?.action == getString(R.string.intent_action_start_stopwatch)) {
             workName = intent.getStringExtra("work_name")
+            workId = intent.getLongExtra("work_id", 0)
             Log.d("STOPWATCH", "workName=${workName}")
         }
 

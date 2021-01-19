@@ -31,6 +31,12 @@ class WorkRepository @Inject constructor(private val workDao: WorkDao) {
         }
     }
 
+    suspend fun updateDuration(workId: Long, duration: Long) {
+        return withContext(Dispatchers.IO) {
+            workDao.updateDuration(workId, duration)
+        }
+    }
+
     fun findById(id: Long): Flow<Work> {
         return workDao.findById(id)
     }

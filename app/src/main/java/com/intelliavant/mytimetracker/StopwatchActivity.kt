@@ -8,10 +8,10 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import com.intelliavant.mytimetracker.data.Work
 import com.intelliavant.mytimetracker.databinding.ActivityStopwatchBinding
 import com.intelliavant.mytimetracker.utils.formatTime
 import com.intelliavant.mytimetracker.viewmodel.WorkListViewModel
-import com.intelliavant.mytimetracker.viewmodel.WorkViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,8 +45,6 @@ class StopwatchActivity : AppCompatActivity() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 intent?.extras?.apply {
                     isRunning = getBoolean("isRunning")
-                    val elaspedMilliseconds = getLong("elapsedMilliseconds")
-                    binding.timerText = formatTime(elaspedMilliseconds)
                     binding.isRunning = isRunning
                 }
             }
@@ -63,12 +61,13 @@ class StopwatchActivity : AppCompatActivity() {
     }
 
 
-    private fun startStopwatch(workName: String?) {
+    private fun startStopwatch(work: Work) {
         Log.d("STOPWATCH", "MainActivity::startStopwatch()")
 
         val serviceIntent = Intent(this, StopwatchService::class.java).apply {
             action = getString(R.string.intent_action_start_stopwatch)
-            putExtra("work_name", workName)
+            putExtra("work_id", work.id)
+            putExtra("work_name", work.name)
         }
         startService(serviceIntent)
 
@@ -119,10 +118,9 @@ class StopwatchActivity : AppCompatActivity() {
             workListViewModel.findById(workId).observe(this) { work ->
                 Log.d("STOPWATCH", "StopwatchFragment started, work = $work")
                 binding.work = work
-                binding.timerText = formatTime(0)
 
                 // start the service
-                startStopwatch(work.name)
+                startStopwatch(work)
             }
         }
     }

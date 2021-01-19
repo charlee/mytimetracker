@@ -19,5 +19,11 @@ class WorkListViewModel @ViewModelInject internal constructor(private val workRe
        return workRepository.createWork(workType)
     }
 
+    suspend fun updateDuration(workId: Long, duration: Long) {
+        return workRepository.updateDuration(workId, duration)
+
+    }
+
     fun findById(id: Long): LiveData<Work> = workRepository.findById(id).asLiveData()
+
 }
