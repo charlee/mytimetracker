@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/workListFragment"
-        android:name="com.intelliavant.mytimetracker.WorkListFragment"
+        android:name="com.intelliavant.mytimetracker.WorkListPagerFragment"
         android:label="@string/work_list_fragment_label"
         tools:layout="@layout/fragment_work_list">
         <action

@@ -2,21 +2,16 @@ package com.intelliavant.mytimetracker
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import com.intelliavant.mytimetracker.data.AppDatabase
+import androidx.viewpager2.widget.ViewPager2
 import com.intelliavant.mytimetracker.databinding.FragmentWorkListBinding
 import com.intelliavant.mytimetracker.viewmodel.WorkListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 @AndroidEntryPoint
 class WorkListFragment : Fragment() {
 
