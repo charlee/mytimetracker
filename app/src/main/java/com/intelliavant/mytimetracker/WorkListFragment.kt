@@ -7,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.viewpager2.widget.ViewPager2
 import com.intelliavant.mytimetracker.databinding.FragmentWorkListBinding
 import com.intelliavant.mytimetracker.viewmodel.WorkListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
 
 @AndroidEntryPoint
-class WorkListFragment : Fragment() {
+class WorkListFragment(private val date: LocalDate) : Fragment() {
 
     private lateinit var binding: FragmentWorkListBinding
     private val workListViewModel: WorkListViewModel by viewModels()
@@ -28,7 +28,7 @@ class WorkListFragment : Fragment() {
         binding = FragmentWorkListBinding.inflate(inflater, container, false)
         binding.workList.adapter = adapter
 
-        workListViewModel.works.observe(viewLifecycleOwner, {
+        workListViewModel.findByDate(date).observe(viewLifecycleOwner, {
             Log.d(
                 "STOPWATCH",
                 "WorkListFragment workListViewModel.works.observe, it=${it.toString()}"

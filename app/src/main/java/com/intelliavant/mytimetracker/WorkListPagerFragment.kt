@@ -49,7 +49,7 @@ class WorkListPagerFragment : Fragment() {
             TabLayoutMediator(dateTabLayout, viewPager) { tab, position ->
                 val lastIndex = viewPagerAdapter.itemCount - 1
 
-                val date = LocalDate.now().plusDays((position - lastIndex).toLong())
+                val date = LocalDate.now().minusDays((lastIndex - position).toLong())
 
                 val dateText = when(position) {
                     lastIndex -> getString(R.string.today)
