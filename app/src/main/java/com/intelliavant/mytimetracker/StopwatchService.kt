@@ -13,8 +13,6 @@ import androidx.core.app.NotificationCompat
 import com.google.common.base.Stopwatch
 import com.intelliavant.mytimetracker.data.AppDatabase
 import com.intelliavant.mytimetracker.utils.formatTime
-import dagger.hilt.android.AndroidEntryPoint
-import java.lang.StringBuilder
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -87,7 +85,7 @@ class StopwatchService : Service() {
 
         val channelId = getString(R.string.notification_channel_id)
         val builder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.ic_timer_icon)
+            .setSmallIcon(R.drawable.ic_baseline_timer_24)
             .setContentIntent(contentIntent)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setAutoCancel(false)

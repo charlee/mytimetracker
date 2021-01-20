@@ -2,19 +2,13 @@ package com.intelliavant.mytimetracker
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.Service
-import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.IBinder
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.intelliavant.mytimetracker.data.AppDatabase
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
