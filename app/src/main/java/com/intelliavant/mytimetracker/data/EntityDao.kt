@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 import java.util.*
 
 @Dao
@@ -18,7 +19,7 @@ interface WorkDao {
     fun getWorks(): Flow<List<Work>>
 
     @Query("SELECT * FROM work WHERE date=:date")
-    fun findByDate(date: Date): List<Work>
+    fun findByDate(date: LocalDate): Flow<List<Work>>
 
     @Query("SELECT * FROM work WHERE id=:id")
     fun findById(id: Long): Flow<Work>

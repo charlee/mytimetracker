@@ -3,18 +3,18 @@ package com.intelliavant.mytimetracker.data
 import android.graphics.Color
 import androidx.room.TypeConverter
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 
 class DateTypeConverter {
     @TypeConverter
-    fun fromTimestamp(value: String): Date {
-        val date = SimpleDateFormat("yyyy-mm-dd").parse(value)
-        return date ?: Date()
+    fun fromTimestamp(value: String): LocalDate {
+        return LocalDate.parse(value)
     }
 
     @TypeConverter
-    fun dateToTimestamp(date: Date): String {
-        return SimpleDateFormat("yyyy-mm-dd").format(date)
+    fun dateToTimestamp(date: LocalDate): String {
+        return date.toString()
     }
 }
 

@@ -9,6 +9,8 @@ import com.intelliavant.mytimetracker.data.Work
 import com.intelliavant.mytimetracker.data.WorkRepository
 import com.intelliavant.mytimetracker.data.WorkType
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.util.*
 
 class WorkListViewModel @ViewModelInject internal constructor(private val workRepository: WorkRepository) :
     ViewModel() {
@@ -26,4 +28,5 @@ class WorkListViewModel @ViewModelInject internal constructor(private val workRe
 
     fun findById(id: Long): LiveData<Work> = workRepository.findById(id).asLiveData()
 
+    fun findByDate(date: LocalDate): LiveData<List<Work>> = workRepository.findByDate(date).asLiveData()
 }

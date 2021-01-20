@@ -2,8 +2,7 @@ package com.intelliavant.mytimetracker.data
 
 import android.graphics.Color
 import androidx.room.*
-import java.time.LocalDateTime
-import java.util.*
+import java.time.LocalDate
 
 
 @Entity(
@@ -15,7 +14,7 @@ data class Work(
     @PrimaryKey(autoGenerate = true) val id: Long?,
     val name: String,
 
-    val date: Date,
+    val date: LocalDate,
 
     val duration: Long,
     @ColumnInfo(name = "worktype_id") val workTypeId: Long

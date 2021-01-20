@@ -17,6 +17,8 @@ import com.intelliavant.mytimetracker.databinding.FragmentWorkListBinding
 import com.intelliavant.mytimetracker.viewmodel.WorkListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 /**
@@ -47,18 +49,17 @@ class WorkListPagerFragment : Fragment() {
             TabLayoutMediator(dateTabLayout, viewPager) { tab, position ->
                 val lastIndex = viewPagerAdapter.itemCount - 1
 
-                val calendar = Calendar.getInstance()
-                calendar.add(Calendar.DAY_OF_YEAR, position - lastIndex)
+                val date = LocalDate.now().plusDays((position - lastIndex).toLong())
 
-                val date = when(position) {
+                val dateText = when(position) {
                     lastIndex -> getString(R.string.today)
                     lastIndex - 1 -> getString(R.string.yesterday)
-                    else -> SimpleDateFormat("yyyy-MM-dd").format(calendar.time)
+                    else -> date.toString()
                 }
 
-                val weekday = SimpleDateFormat("E").format(calendar.time)
+                val weekdayText = date.format(DateTimeFormatter.ofPattern("E"))
 
-                tab.text = "$date ($weekday)"
+                tab.text = "$dateText ($weekdayText)"
             }.attach()
         }
 
