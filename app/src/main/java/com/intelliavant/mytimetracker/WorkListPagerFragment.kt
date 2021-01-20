@@ -10,10 +10,14 @@ import android.widget.Button
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.intelliavant.mytimetracker.data.AppDatabase
 import com.intelliavant.mytimetracker.databinding.FragmentWorkListBinding
 import com.intelliavant.mytimetracker.viewmodel.WorkListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -22,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class WorkListPagerFragment : Fragment() {
 
     private lateinit var viewPager: ViewPager2
+    private lateinit var dateTabLayout: TabLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +41,25 @@ class WorkListPagerFragment : Fragment() {
             val viewPagerAdapter = WorkListPagerAdapter(activity)
             viewPager = view.findViewById(R.id.view_pager)
             viewPager.adapter = viewPagerAdapter
+            viewPager.setCurrentItem(viewPagerAdapter.itemCount - 1, false)
+
+            dateTabLayout = view.findViewById(R.id.date_tab_layout)
+            TabLayoutMediator(dateTabLayout, viewPager) { tab, position ->
+                val lastIndex = viewPagerAdapter.itemCount - 1
+
+                val calendar = Calendar.getInstance()
+                calendar.add(Calendar.DAY_OF_YEAR, position - lastIndex)
+
+                val date = when(position) {
+                    lastIndex -> getString(R.string.today)
+                    lastIndex - 1 -> getString(R.string.yesterday)
+                    else -> SimpleDateFormat("yyyy-MM-dd").format(calendar.time)
+                }
+
+                val weekday = SimpleDateFormat("E").format(calendar.time)
+
+                tab.text = "$date ($weekday)"
+            }.attach()
         }
 
         super.onViewCreated(view, savedInstanceState)

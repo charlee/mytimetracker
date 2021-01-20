@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-private const val NUM_PAGES = 100
+private const val NUM_PAGES = 14
 
 class WorkListPagerAdapter(fa: FragmentActivity): FragmentStateAdapter(fa) {
 
