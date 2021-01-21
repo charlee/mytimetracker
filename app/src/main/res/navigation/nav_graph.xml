@@ -18,7 +18,7 @@
         android:id="@+id/stopwatchFragment"
         android:name="com.intelliavant.mytimetracker.StopwatchFragment"
         android:label="fragment_stopwatch"
-        tools:layout="@layout/activity_stopwatch" >
+        tools:layout="@layout/fragment_stopwatch" >
         <action
             android:id="@+id/action_stopwatchFragment_to_workListFragment"
             app:destination="@id/workListFragment" />

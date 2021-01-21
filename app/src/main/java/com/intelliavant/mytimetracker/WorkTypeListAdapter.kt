@@ -18,7 +18,7 @@ class WorkTypeListAdapter :
         WorkTypeDiffCallback()
     ) {
 
-    private var onWorkTypeClickListener: OnWorkTypeClickListener? = null
+    var onWorkTypeClickListener: OnWorkTypeClickListener? = null
 
     inner class ViewHolder(private val binding: WorkTypeListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -37,9 +37,6 @@ class WorkTypeListAdapter :
         }
     }
 
-    fun setOnWorkTypeClickListener(listener: (workType: WorkType) -> Unit) {
-        onWorkTypeClickListener = listener
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(

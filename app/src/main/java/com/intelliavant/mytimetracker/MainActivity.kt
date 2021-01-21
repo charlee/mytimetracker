@@ -3,34 +3,36 @@ package com.intelliavant.mytimetracker
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.intelliavant.mytimetracker.utils.StopwatchManager
+import com.intelliavant.mytimetracker.viewmodel.WorkListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private fun createNotificationChannel() {
-        val channelId = getString(R.string.notification_channel_id)
-        val name = getString(R.string.notification_channel_name)
-        val descriptionText = getString(R.string.notification_channel_description)
-        val mChannel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_DEFAULT)
-        mChannel.description = descriptionText
-
-        // Register the channel with the system; you can't change the importance
-        // or other notification behaviors after this
-        val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(mChannel)
-    }
-
+    private val workListViewModel: WorkListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // init service manager
+        StopwatchManager.getInstance(this)
 
         // Request foereground service permission
         requestPermissions(
@@ -38,18 +40,35 @@ class MainActivity : AppCompatActivity() {
             PackageManager.PERMISSION_GRANTED
         )
 
-        // create notification channel
-        createNotificationChannel()
-
-
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
         // show the work type bottom sheet when FAB is clicked
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
             val fragment = WorkTypeListFragment()
+            fragment.onCreateWorkListener = { workType ->
+                Log.d("STOPWATCH", "workType ${workType.id} clicked")
+                lifecycleScope.launch {
+                    val workId = workListViewModel.createWork(workType)
+
+                    // Move to stopwatch fragment
+                    val bundle = bundleOf("workId" to workId)
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.action_workListFragment_to_stopwatchFragment, bundle)
+
+//                    // Start StopwatchActivity
+//                    val intent = Intent(context, StopwatchFragment::class.java).apply {
+//                        putExtra("workId", workId)
+//                    }
+//                    startActivity(intent)
+                }
+            }
             fragment.show(supportFragmentManager, fragment.tag)
         }
+    }
+
+    override fun onDestroy() {
+        StopwatchManager.getInstance(this).destroy()
+        super.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
