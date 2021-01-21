@@ -17,8 +17,8 @@ class WorkListViewModel @ViewModelInject internal constructor(private val workRe
 
     val works: LiveData<List<Work>> = workRepository.getWorks().asLiveData()
 
-    suspend fun createWork(workType: WorkType): Long {
-       return workRepository.createWork(workType)
+    suspend fun createWork(name: String, workType: WorkType): Long {
+       return workRepository.createWork(name, workType)
     }
 
     suspend fun updateDuration(workId: Long, duration: Long) {

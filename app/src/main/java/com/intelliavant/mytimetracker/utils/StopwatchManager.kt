@@ -1,12 +1,10 @@
 package com.intelliavant.mytimetracker.utils
 
-import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.*
 import android.os.IBinder
 import android.util.Log
-import androidx.databinding.DataBindingUtil
 import com.intelliavant.mytimetracker.R
 import com.intelliavant.mytimetracker.StopwatchService
 import com.intelliavant.mytimetracker.data.Work
@@ -14,13 +12,16 @@ import com.intelliavant.mytimetracker.data.Work
 typealias  OnUpdateListener = (elapsedMilliseconds: Long, isRunning: Boolean) -> Unit
 
 
-class StopwatchManager(private val cm: ContextWrapper) {
+class StopwatchManager(private val context: Context) {
 
     private var mBound = false
     private lateinit var mService: StopwatchService
     private lateinit var broadcastReceiver: BroadcastReceiver
 
     var isRunning = false
+        private set
+
+    var elapsedMilliseconds = 0L
         private set
 
     var onUpdate: OnUpdateListener? = null
@@ -38,16 +39,16 @@ class StopwatchManager(private val cm: ContextWrapper) {
     }
 
     private fun createNotificationChannel() {
-        val channelId = cm.getString(R.string.notification_channel_id)
-        val name = cm.getString(R.string.notification_channel_name)
-        val descriptionText = cm.getString(R.string.notification_channel_description)
+        val channelId = context.getString(R.string.notification_channel_id)
+        val name = context.getString(R.string.notification_channel_name)
+        val descriptionText = context.getString(R.string.notification_channel_description)
         val mChannel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_DEFAULT)
         mChannel.description = descriptionText
 
         // Register the channel with the system; you can't change the importance
         // or other notification behaviors after this
         val notificationManager =
-            cm.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(mChannel)
     }
 
@@ -56,47 +57,47 @@ class StopwatchManager(private val cm: ContextWrapper) {
             override fun onReceive(context: Context?, intent: Intent?) {
                 intent?.extras?.apply {
                     isRunning = getBoolean("isRunning")
-                    val elapsedMilliseconds = getLong("elapsedMilliseconds")
+                    elapsedMilliseconds = getLong("elapsedMilliseconds")
                     onUpdate?.invoke(elapsedMilliseconds, isRunning)
                 }
             }
         }
 
         val intentFilter = IntentFilter()
-        intentFilter.addAction(cm.getString(R.string.intent_action_time_elasped))
+        intentFilter.addAction(context.getString(R.string.intent_action_time_elasped))
 
-        cm.registerReceiver(broadcastReceiver, intentFilter)
+        context.registerReceiver(broadcastReceiver, intentFilter)
     }
 
     private fun unregisterBroadcastReceiver() {
-        cm.unregisterReceiver(broadcastReceiver)
+        context.unregisterReceiver(broadcastReceiver)
     }
 
     fun destroy() {
         unregisterBroadcastReceiver()
     }
 
-    fun start(work: Work) {
+    fun start(workId: Long, workName: String) {
         Log.d("STOPWATCH", "MainActivity::startStopwatch()")
 
-        val serviceIntent = Intent(cm, StopwatchService::class.java).apply {
-            action = cm.getString(R.string.intent_action_start_stopwatch)
-            putExtra("work_id", work.id)
-            putExtra("work_name", work.name)
+        val serviceIntent = Intent(context, StopwatchService::class.java).apply {
+            action = context.getString(R.string.intent_action_start_stopwatch)
+            putExtra("work_id", workId)
+            putExtra("work_name", workName)
         }
-        cm.startService(serviceIntent)
+        context.startService(serviceIntent)
 
         // create a bound service
         // https://developer.android.com/guide/components/bound-services#bind-started-service
-        Intent(cm, StopwatchService::class.java).also { intent ->
-            cm.bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        Intent(context, StopwatchService::class.java).also { intent ->
+            context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
         }
     }
 
     fun stop() {
         mService.stop()
         if (mBound) {
-            cm.unbindService(connection)
+            context.unbindService(connection)
             mBound = false
         }
     }

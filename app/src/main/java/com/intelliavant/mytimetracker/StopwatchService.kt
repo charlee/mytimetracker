@@ -80,7 +80,7 @@ class StopwatchService : Service() {
     private fun getNotification(): Notification {
         // Create notification builder
         val contentIntent: PendingIntent = Intent(this, StopwatchFragment::class.java).let { notificationIntent ->
-            notificationIntent.setAction(Intent.ACTION_MAIN)
+            notificationIntent.action = Intent.ACTION_MAIN
             notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER)
             notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             PendingIntent.getActivity(this, 0, notificationIntent, 0)
@@ -117,7 +117,7 @@ class StopwatchService : Service() {
     }
 
     override fun onBind(p0: Intent?): IBinder? {
-        Log.d("STOPWATCH", "Stopwatch.onStartCommand() called")
+        Log.d("STOPWATCH", "Stopwatch.onBind() called")
         return binder
     }
 

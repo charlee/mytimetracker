@@ -18,11 +18,11 @@ class WorkTypeRepository @Inject constructor(private val workTypeDao: WorkTypeDa
 @Singleton
 class WorkRepository @Inject constructor(private val workDao: WorkDao) {
 
-    suspend fun createWork(workType: WorkType): Long {
+    suspend fun createWork(name: String, workType: WorkType): Long {
         if (workType.id == null) throw IllegalArgumentException("workType does not exist")
 
         val current = LocalDate.now()
-        val work = Work(null, workType.name, current, 0, workType.id)
+        val work = Work(null, name, current, 0, workType.id)
 
         return withContext(Dispatchers.IO) {
             workDao.insert(work)

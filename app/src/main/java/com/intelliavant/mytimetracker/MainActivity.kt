@@ -49,10 +49,10 @@ class MainActivity : AppCompatActivity() {
             fragment.onCreateWorkListener = { workType ->
                 Log.d("STOPWATCH", "workType ${workType.id} clicked")
                 lifecycleScope.launch {
-                    val workId = workListViewModel.createWork(workType)
+                    val workId = workListViewModel.createWork(workType.name, workType)
 
                     // Move to stopwatch fragment
-                    val bundle = bundleOf("workId" to workId)
+                    val bundle = bundleOf("workId" to workId, "workName" to workType.name)
                     findNavController(R.id.nav_host_fragment).navigate(R.id.action_workListFragment_to_stopwatchFragment, bundle)
 
 //                    // Start StopwatchActivity
