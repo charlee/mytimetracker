@@ -24,6 +24,9 @@ class StopwatchManager(private val context: Context) {
     var elapsedMilliseconds = 0L
         private set
 
+    var workName = ""
+        private set
+
     var onUpdate: OnUpdateListener? = null
 
     private val connection = object : ServiceConnection {
@@ -79,6 +82,8 @@ class StopwatchManager(private val context: Context) {
 
     fun start(workId: Long, workName: String) {
         Log.d("STOPWATCH", "MainActivity::startStopwatch()")
+
+        this.workName = workName
 
         val serviceIntent = Intent(context, StopwatchService::class.java).apply {
             action = context.getString(R.string.intent_action_start_stopwatch)

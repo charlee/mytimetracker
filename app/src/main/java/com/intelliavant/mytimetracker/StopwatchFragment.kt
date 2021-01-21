@@ -7,12 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.intelliavant.mytimetracker.databinding.FragmentStopwatchBinding
 import com.intelliavant.mytimetracker.utils.StopwatchManager
 import com.intelliavant.mytimetracker.utils.formatTime
-import com.intelliavant.mytimetracker.viewmodel.WorkListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,19 +48,9 @@ class StopwatchFragment : Fragment() {
             binding.timerText = formatTime(elapsedMilliseconds)
         }
 
-        val workId = arguments?.getLong("workId")
-        val workName = arguments?.getString("workName")
-
-
-        workId?.let { workId ->
-            workName?.let { workName ->
-                binding.workName = workName
-
-                // start the service
-                sm.start(workId, workName)
-
-            }
-        }
+        binding.workName = sm.workName
+        binding.isRunning = sm.isRunning
+        binding.timerText = formatTime(sm.elapsedMilliseconds)
 
         return binding.root
     }

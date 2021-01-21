@@ -1,22 +1,15 @@
 package com.intelliavant.mytimetracker
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.intelliavant.mytimetracker.utils.StopwatchManager
 import com.intelliavant.mytimetracker.viewmodel.WorkListViewModel
@@ -27,12 +20,12 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private val workListViewModel: WorkListViewModel by viewModels()
+    private lateinit var sm: StopwatchManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // init service manager
-        StopwatchManager.getInstance(this)
+        sm = StopwatchManager.getInstance(this)
 
         // Request foereground service permission
         requestPermissions(
@@ -50,16 +43,14 @@ class MainActivity : AppCompatActivity() {
                 Log.d("STOPWATCH", "workType ${workType.id} clicked")
                 lifecycleScope.launch {
                     val workId = workListViewModel.createWork(workType.name, workType)
+                    val workName = workType.name
+
+                    // Start StopwatchService
+                    sm.start(workId, workName)
 
                     // Move to stopwatch fragment
-                    val bundle = bundleOf("workId" to workId, "workName" to workType.name)
+                    val bundle = bundleOf("workName" to workName)
                     findNavController(R.id.nav_host_fragment).navigate(R.id.action_workListFragment_to_stopwatchFragment, bundle)
-
-//                    // Start StopwatchActivity
-//                    val intent = Intent(context, StopwatchFragment::class.java).apply {
-//                        putExtra("workId", workId)
-//                    }
-//                    startActivity(intent)
                 }
             }
             fragment.show(supportFragmentManager, fragment.tag)
