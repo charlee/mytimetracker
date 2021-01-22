@@ -7,7 +7,6 @@ import android.os.IBinder
 import android.util.Log
 import com.intelliavant.mytimetracker.R
 import com.intelliavant.mytimetracker.StopwatchService
-import com.intelliavant.mytimetracker.data.Work
 
 typealias  OnUpdateListener = (elapsedMilliseconds: Long, isRunning: Boolean) -> Unit
 
@@ -78,6 +77,11 @@ class StopwatchManager(private val context: Context) {
 
     fun destroy() {
         unregisterBroadcastReceiver()
+
+        if (mBound) {
+            context.unbindService(connection)
+            mBound = true
+        }
     }
 
     fun start(workId: Long, workName: String) {

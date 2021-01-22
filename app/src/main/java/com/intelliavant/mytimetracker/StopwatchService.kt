@@ -79,7 +79,7 @@ class StopwatchService : Service() {
 
     private fun getNotification(): Notification {
         // Create notification builder
-        val contentIntent: PendingIntent = Intent(this, StopwatchFragment::class.java).let { notificationIntent ->
+        val contentIntent: PendingIntent = Intent(this, MainActivity::class.java).let { notificationIntent ->
             notificationIntent.action = Intent.ACTION_MAIN
             notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER)
             notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

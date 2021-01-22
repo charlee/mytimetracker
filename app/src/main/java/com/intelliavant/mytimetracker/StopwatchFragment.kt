@@ -55,11 +55,6 @@ class StopwatchFragment : Fragment() {
         return binding.root
     }
 
-    override fun onDestroy() {
-        sm.stop()
-        super.onDestroy()
-    }
-
     private fun stopWork() {
         activity?.let { activity ->
             AlertDialog.Builder(activity)
