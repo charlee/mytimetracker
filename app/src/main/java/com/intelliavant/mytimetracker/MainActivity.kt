@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         sm = StopwatchManager.getInstance(this)
+        sm.create()
 
         // Request foereground service permission
         requestPermissions(

@@ -1,5 +1,6 @@
 package com.intelliavant.mytimetracker.utils
 
+import android.app.ActivityManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.*
@@ -40,6 +41,17 @@ class StopwatchManager(private val context: Context) {
         }
     }
 
+    private fun isStopwatchServiceRunning(): Boolean {
+        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        activityManager.getRunningServices(Int.MAX_VALUE).forEach {
+            if (StopwatchService::class.java.name.equals(it.service.className)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private fun createNotificationChannel() {
         val channelId = context.getString(R.string.notification_channel_id)
         val name = context.getString(R.string.notification_channel_name)
@@ -75,15 +87,6 @@ class StopwatchManager(private val context: Context) {
         context.unregisterReceiver(broadcastReceiver)
     }
 
-    fun destroy() {
-        unregisterBroadcastReceiver()
-
-        if (mBound) {
-            context.unbindService(connection)
-            mBound = true
-        }
-    }
-
     fun start(workId: Long, workName: String) {
         Log.d("STOPWATCH", "MainActivity::startStopwatch()")
 
@@ -96,6 +99,15 @@ class StopwatchManager(private val context: Context) {
         }
         context.startService(serviceIntent)
 
+        bindService()
+    }
+
+    fun stop() {
+        mService.stop()
+        unbindService()
+    }
+
+    private fun bindService() {
         // create a bound service
         // https://developer.android.com/guide/components/bound-services#bind-started-service
         Intent(context, StopwatchService::class.java).also { intent ->
@@ -103,11 +115,9 @@ class StopwatchManager(private val context: Context) {
         }
     }
 
-    fun stop() {
-        mService.stop()
+    private fun unbindService() {
         if (mBound) {
             context.unbindService(connection)
-            mBound = false
         }
     }
 
@@ -119,11 +129,22 @@ class StopwatchManager(private val context: Context) {
         mService.resume()
     }
 
-    init {
+    fun create() {
+        Log.d("STOPWATCH", "StopwatchManager.init called")
         // create notification channel
         createNotificationChannel()
-
         registerBroadcastReceiver()
+
+        // Check if service is running, if so, bind it
+        if (isStopwatchServiceRunning()) {
+            Log.d("STOPWATCH", "StopwatchService already running, bind")
+            bindService()
+        }
+    }
+
+    fun destroy() {
+        unregisterBroadcastReceiver()
+        unbindService()
     }
 
     companion object {
@@ -131,6 +152,7 @@ class StopwatchManager(private val context: Context) {
         private var instance: StopwatchManager? = null
 
         fun getInstance(contextWrapper: ContextWrapper): StopwatchManager {
+            Log.d("STOPWATCH", "StopwatchManager.getInstance() called, instance = ${instance.toString()}")
             return instance ?: StopwatchManager(contextWrapper).also { instance = it }
         }
     }

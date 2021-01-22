@@ -11,9 +11,10 @@ import com.intelliavant.mytimetracker.databinding.FragmentWorkListBinding
 import com.intelliavant.mytimetracker.viewmodel.WorkListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
+import java.util.*
 
 @AndroidEntryPoint
-class WorkListFragment(private val date: LocalDate) : Fragment() {
+class WorkListFragment() : Fragment() {
 
     private lateinit var binding: FragmentWorkListBinding
     private val workListViewModel: WorkListViewModel by viewModels()
@@ -28,13 +29,17 @@ class WorkListFragment(private val date: LocalDate) : Fragment() {
         binding = FragmentWorkListBinding.inflate(inflater, container, false)
         binding.workList.adapter = adapter
 
-        workListViewModel.findByDate(date).observe(viewLifecycleOwner, {
-            Log.d(
-                "STOPWATCH",
-                "WorkListFragment workListViewModel.works.observe, it=${it.toString()}"
-            )
-            adapter.submitList(it)
-        })
+        arguments?.getInt("daysBack")?.let {
+            val date = LocalDate.now().minusDays(it.toLong())
+
+            workListViewModel.findByDate(date).observe(viewLifecycleOwner, {
+//            Log.d(
+//                "STOPWATCH",
+//                "WorkListFragment workListViewModel.works.observe, it=${it.toString()}"
+//            )
+                adapter.submitList(it)
+            })
+        }
 
         return binding.root
     }
