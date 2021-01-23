@@ -41,10 +41,10 @@ class StopwatchManager(private val context: Context) {
         }
     }
 
-    private fun isStopwatchServiceRunning(): Boolean {
+    fun isStopwatchServiceRunning(): Boolean {
         val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         activityManager.getRunningServices(Int.MAX_VALUE).forEach {
-            if (StopwatchService::class.java.name.equals(it.service.className)) {
+            if (StopwatchService::class.java.name == it.service.className) {
                 return true;
             }
         }

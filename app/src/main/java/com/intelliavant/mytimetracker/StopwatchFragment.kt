@@ -55,7 +55,7 @@ class StopwatchFragment : Fragment() {
         return binding.root
     }
 
-    private fun stopWork() {
+    fun stopWork() {
         activity?.let { activity ->
             AlertDialog.Builder(activity)
                 .setTitle("Stop activity")

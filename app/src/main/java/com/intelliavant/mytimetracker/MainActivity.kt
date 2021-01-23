@@ -1,10 +1,13 @@
 package com.intelliavant.mytimetracker
 
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -25,9 +28,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        sm = StopwatchManager.getInstance(this)
-        sm.create()
-
         // Request foereground service permission
         requestPermissions(
             arrayOf(android.Manifest.permission.FOREGROUND_SERVICE),
@@ -36,6 +36,9 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
+
+        sm = StopwatchManager.getInstance(this)
+        sm.create()
 
         // show the work type bottom sheet when FAB is clicked
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
@@ -50,12 +53,23 @@ class MainActivity : AppCompatActivity() {
                     sm.start(workId, workName)
 
                     // Move to stopwatch fragment
-                    val bundle = bundleOf("workName" to workName)
-                    findNavController(R.id.nav_host_fragment).navigate(R.id.action_workListFragment_to_stopwatchFragment, bundle)
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.action_workListFragment_to_stopwatchFragment)
                 }
             }
             fragment.show(supportFragmentManager, fragment.tag)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Recover stopwatch fragment if service is running and current fragment is the main fragment
+        if (sm.isStopwatchServiceRunning()) {
+            val navController = findNavController(R.id.nav_host_fragment)
+            if (navController.currentDestination?.id == R.id.workListFragment) {
+                navController.navigate(R.id.action_workListFragment_to_stopwatchFragment)
+            }
+        }
+
     }
 
     override fun onDestroy() {
@@ -77,5 +91,22 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onBackPressed() {
+        // If back button pressed, find out if current fragment is the stopwatch fragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        if (navHostFragment != null) {
+            val fragment = navHostFragment.childFragmentManager.fragments[0]
+
+            // if currently showing stopwatch, then call its stopWork
+            if (fragment is StopwatchFragment) {
+                fragment.stopWork()
+                return
+            }
+        }
+
+        // otherwise simply pause the activity
+        super.onBackPressed()
     }
 }
