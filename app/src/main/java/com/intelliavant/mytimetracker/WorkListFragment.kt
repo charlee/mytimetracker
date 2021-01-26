@@ -27,13 +27,15 @@ class WorkListFragment() : Fragment() {
         val adapter = WorkListAdapter()
 
         binding = FragmentWorkListBinding.inflate(inflater, container, false)
-        binding.workList.adapter = adapter
+        binding.isWorkListVisible = false
+        binding.workListRecyclerView.adapter = adapter
 
         arguments?.getInt("daysBack")?.let {
             val date = LocalDate.now().minusDays(it.toLong())
 
-            workListViewModel.findByDate(date).observe(viewLifecycleOwner, {
-                adapter.submitList(it)
+            workListViewModel.findByDate(date).observe(viewLifecycleOwner, { workList ->
+                binding.isWorkListVisible = workList.isNotEmpty()
+                adapter.submitList(workList)
             })
         }
 

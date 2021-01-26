@@ -32,4 +32,5 @@
     <string name="hello_world">Hello Square World!</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
+    <string name="no_activities">No activities</string>
 </resources>
