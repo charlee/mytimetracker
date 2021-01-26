@@ -73,8 +73,4 @@ class StopwatchFragment : Fragment() {
 
         }
     }
-
-//    override fun onBackPressed() {
-//        stopWork()
-//    }
 }

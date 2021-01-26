@@ -152,7 +152,6 @@ class StopwatchManager(private val context: Context) {
         private var instance: StopwatchManager? = null
 
         fun getInstance(contextWrapper: ContextWrapper): StopwatchManager {
-            Log.d("STOPWATCH", "StopwatchManager.getInstance() called, instance = ${instance.toString()}")
             return instance ?: StopwatchManager(contextWrapper).also { instance = it }
         }
     }

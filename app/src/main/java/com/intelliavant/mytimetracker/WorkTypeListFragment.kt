@@ -1,6 +1,5 @@
 package com.intelliavant.mytimetracker
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.intelliavant.mytimetracker.databinding.FragmentWorkTypeListBinding
-import com.intelliavant.mytimetracker.viewmodel.WorkListViewModel
 import com.intelliavant.mytimetracker.viewmodel.WorkTypeListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

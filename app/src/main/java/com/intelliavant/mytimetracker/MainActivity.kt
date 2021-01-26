@@ -14,6 +14,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.intelliavant.mytimetracker.databinding.ActivityMainBinding
 import com.intelliavant.mytimetracker.utils.StopwatchManager
 import com.intelliavant.mytimetracker.viewmodel.WorkListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,8 +25,12 @@ class MainActivity : AppCompatActivity() {
 
     private val workListViewModel: WorkListViewModel by viewModels()
     private lateinit var sm: StopwatchManager
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        Log.d("STOPWATCH", "MainActivity.onCreate()")
+
         super.onCreate(savedInstanceState)
 
         // Request foereground service permission
@@ -34,7 +39,10 @@ class MainActivity : AppCompatActivity() {
             PackageManager.PERMISSION_GRANTED
         )
 
-        setContentView(R.layout.activity_main)
+        // Data binding
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding.isFabVisible = true
+        setContentView(binding.root)
         setSupportActionBar(findViewById(R.id.toolbar))
 
         sm = StopwatchManager.getInstance(this)
@@ -61,6 +69,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
+        Log.d("STOPWATCH", "MainActivity.onResume()")
         super.onResume()
         // Recover stopwatch fragment if service is running and current fragment is the main fragment
         if (sm.isStopwatchServiceRunning()) {
@@ -73,6 +82,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        Log.d("STOPWATCH", "MainActivity.onDesctroy()")
         StopwatchManager.getInstance(this).destroy()
         super.onDestroy()
     }

@@ -33,10 +33,6 @@ class WorkListFragment() : Fragment() {
             val date = LocalDate.now().minusDays(it.toLong())
 
             workListViewModel.findByDate(date).observe(viewLifecycleOwner, {
-//            Log.d(
-//                "STOPWATCH",
-//                "WorkListFragment workListViewModel.works.observe, it=${it.toString()}"
-//            )
                 adapter.submitList(it)
             })
         }
