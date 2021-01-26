@@ -66,6 +66,11 @@ class MainActivity : AppCompatActivity() {
             }
             fragment.show(supportFragmentManager, fragment.tag)
         }
+
+        // Hide FAB if not the work list fragment
+        findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener { _, destination, _ ->
+            binding.isFabVisible = (destination.id == R.id.workListFragment);
+        }
     }
 
     override fun onResume() {
