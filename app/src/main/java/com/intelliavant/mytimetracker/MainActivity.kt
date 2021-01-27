@@ -105,7 +105,10 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.action_workListFragment_to_settingsFragment)
+                return true
+            }
             R.id.action_share -> onShare()
             else -> super.onOptionsItemSelected(item)
         }

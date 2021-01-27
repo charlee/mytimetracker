@@ -65,7 +65,7 @@ class StopwatchFragment : Fragment() {
                     dialog.dismiss()
                     sm.stop()
 
-                    findNavController().navigate(R.id.action_stopwatchFragment_to_workListFragment)
+                    findNavController().popBackStack()
                 }
                 .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
                 .setIcon(android.R.drawable.ic_dialog_alert)
