@@ -13,11 +13,11 @@ import androidx.core.app.NotificationCompat
 import com.google.common.base.Stopwatch
 import com.intelliavant.mytimetracker.data.AppDatabase
 import com.intelliavant.mytimetracker.utils.formatTime
+import java.time.LocalTime
 import java.util.*
-import java.util.concurrent.TimeUnit
+import java.time.temporal.ChronoUnit.MILLIS
 
 class StopwatchService : Service() {
-    private lateinit var stopwatch: Stopwatch
     private val timer: Timer = Timer()
     private val NOTIFICATION_ID = 101
     private var currentStopwatchSec: Long = -1;
@@ -27,19 +27,28 @@ class StopwatchService : Service() {
 
     private val binder = StopwatchServiceBinder()
 
+    private  var startTime: LocalTime? = null
+    private var elapsedMillisecondsUntilLastStop: Long = 0
+    private var elapsedMilliseconds: Long = 0
+    private var isRunning: Boolean = false
+
     inner class StopwatchServiceBinder : Binder() {
         fun getService(): StopwatchService = this@StopwatchService
+    }
+
+    private fun updateElapsedMilliseconds() {
+        startTime?.let {
+            elapsedMilliseconds = elapsedMillisecondsUntilLastStop + it.until(LocalTime.now(), MILLIS)
+        }
     }
 
     override fun onCreate() {
         super.onCreate()
 
-        stopwatch = Stopwatch.createUnstarted()
-        stopwatch.start()
-
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
-                val elapsedMilliseconds = stopwatch.elapsed(TimeUnit.MILLISECONDS)
+                updateElapsedMilliseconds()
+
                 val sec = elapsedMilliseconds / 1000;
 
                 if (currentStopwatchSec != sec) {
@@ -63,11 +72,10 @@ class StopwatchService : Service() {
     }
 
     private fun broadcastStatus() {
-        val elapsedMilliseconds = stopwatch.elapsed(TimeUnit.MILLISECONDS)
         val timerIntent = Intent()
         timerIntent.action = getString(R.string.intent_action_time_elasped)
         timerIntent.putExtra("elapsedMilliseconds", elapsedMilliseconds)
-        timerIntent.putExtra("isRunning", stopwatch.isRunning)
+        timerIntent.putExtra("isRunning", isRunning)
         sendBroadcast(timerIntent)
     }
 
@@ -105,10 +113,10 @@ class StopwatchService : Service() {
             contentBuilder.append(workName)
             contentBuilder.append(": ")
         }
-        contentBuilder.append(formatTime(stopwatch.elapsed(TimeUnit.MILLISECONDS)))
+        contentBuilder.append(formatTime(elapsedMilliseconds))
         builder.setContentText(contentBuilder.toString())
 
-        if (stopwatch.isRunning) {
+        if (isRunning) {
             builder.addAction(android.R.drawable.ic_media_pause, getString(R.string.pause), actionPendingIntent)
         } else {
             builder.addAction(android.R.drawable.ic_media_play, getString(R.string.resume), actionPendingIntent)
@@ -125,7 +133,7 @@ class StopwatchService : Service() {
         Log.d("STOPWATCH", "Stopwatch.onStartCommand() called, intent.action = ${intent?.action}")
 
         if (intent?.action == getString(R.string.intent_action_pause_resume_stopwatch)) {
-            if (stopwatch.isRunning) {
+            if (isRunning) {
                 pause();
             } else {
                 resume();
@@ -136,6 +144,8 @@ class StopwatchService : Service() {
             workName = intent.getStringExtra("work_name")
             workId = intent.getLongExtra("work_id", 0)
             Log.d("STOPWATCH", "workName=${workName}")
+
+            resume()
         }
 
         return START_STICKY
@@ -143,8 +153,12 @@ class StopwatchService : Service() {
 
     fun pause() {
         Log.d("STOPWATCH", "StopwatchService.pause() called")
-        if (stopwatch.isRunning) {
-            stopwatch.stop()
+        if (isRunning) {
+            isRunning = false
+            updateElapsedMilliseconds()
+            elapsedMillisecondsUntilLastStop = elapsedMilliseconds
+            startTime = null
+
             broadcastStatus()
             updateNotification()
         }
@@ -152,8 +166,10 @@ class StopwatchService : Service() {
 
     fun resume() {
         Log.d("STOPWATCH", "StopwatchService.resume() called")
-        if (!stopwatch.isRunning) {
-            stopwatch.start()
+        if (!isRunning) {
+            isRunning = true
+            startTime = LocalTime.now()
+
             broadcastStatus()
             updateNotification()
         }
@@ -170,8 +186,8 @@ class StopwatchService : Service() {
 
         timer.cancel()
 
-        if (stopwatch.isRunning) {
-            stopwatch.stop()
+        if (isRunning) {
+            pause()
         }
 
         val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
