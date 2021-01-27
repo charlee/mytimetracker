@@ -36,6 +36,7 @@ class WorkListFragment() : Fragment() {
             workListViewModel.findByDate(date).observe(viewLifecycleOwner, { workList ->
                 binding.isWorkListVisible = workList.isNotEmpty()
                 adapter.submitList(workList)
+                adapter.dateText = date.toString()
             })
         }
 

@@ -8,12 +8,15 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.intelliavant.mytimetracker.data.Work
 import com.intelliavant.mytimetracker.databinding.WorkListItemBinding
+import com.intelliavant.mytimetracker.utils.formatTime
 import com.intelliavant.mytimetracker.viewmodel.WorkViewModel
 
 class WorkListAdapter() :
     ListAdapter<Work, WorkListAdapter.ViewHolder>(
         WorkDiffCallback()
     ) {
+
+    var dateText: String = ""
 
     class ViewHolder(private val binding: WorkListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -39,6 +42,12 @@ class WorkListAdapter() :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
+    }
+
+    fun getShareableText(): String {
+        val text =
+            currentList.joinToString("\n") { work -> "${work.name}: ${formatTime(work.duration)}" }
+        return "$dateText\n$text"
     }
 }
 

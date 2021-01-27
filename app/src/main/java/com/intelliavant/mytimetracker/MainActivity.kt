@@ -1,6 +1,7 @@
 package com.intelliavant.mytimetracker
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.AttributeSet
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.intelliavant.mytimetracker.databinding.ActivityMainBinding
 import com.intelliavant.mytimetracker.utils.StopwatchManager
@@ -104,6 +106,7 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
+            R.id.action_share -> onShare()
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -123,5 +126,23 @@ class MainActivity : AppCompatActivity() {
 
         // otherwise simply pause the activity
         super.onBackPressed()
+    }
+
+    private fun onShare(): Boolean {
+
+        val workListRecyclerView = findViewById<RecyclerView>(R.id.work_list_recycler_view)
+        val adapter = workListRecyclerView.adapter as WorkListAdapter
+        val text = adapter.getShareableText()
+
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, text)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
+
+        return true
     }
 }
