@@ -15,7 +15,8 @@
             app:destination="@id/stopwatchFragment" />
         <action
             android:id="@+id/action_workListFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment"/>
+            app:destination="@id/settingsFragment" />
+        />
     </fragment>
     <fragment
         android:id="@+id/stopwatchFragment"
@@ -35,6 +36,15 @@
         android:name="com.intelliavant.mytimetracker.SettingsFragment"
         android:label="fragment_settings"
         >
+        <action
+            android:id="@+id/action_settingsFragment_to_settingsWorkTypeListFragment"
+            app:destination="@id/settingsWorkTypeListFragment"/>
 
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsWorkTypeListFragment"
+        android:name="com.intelliavant.mytimetracker.SettingsWorkTypeListFragment"
+        android:label="fragment_settings_work_list">
     </fragment>
 </navigation>

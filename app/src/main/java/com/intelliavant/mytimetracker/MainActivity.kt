@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_settings -> {
                 findNavController(R.id.nav_host_fragment).navigate(R.id.action_workListFragment_to_settingsFragment)
-                return true
+                true
             }
             R.id.action_share -> onShare()
             else -> super.onOptionsItemSelected(item)

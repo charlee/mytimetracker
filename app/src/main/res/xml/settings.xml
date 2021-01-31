@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference android:key="work_types"
+        android:summary="Add or change activity types"
+        android:title="Activity types">
+
+    </Preference>
 
     <Preference
         app:key="about"
         app:summary="About this app"
         app:title="About">
-
     </Preference>
 
-</androidx.preference.PreferenceScreen>
+</PreferenceScreen>
