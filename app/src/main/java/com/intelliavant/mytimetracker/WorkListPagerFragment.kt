@@ -30,29 +30,27 @@ class WorkListPagerFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        activity?.let { activity ->
-            val viewPagerAdapter = WorkListPagerAdapter(activity)
-            viewPager = view.findViewById(R.id.view_pager)
-            viewPager.adapter = viewPagerAdapter
-            viewPager.setCurrentItem(viewPagerAdapter.itemCount - 1, false)
+        val viewPagerAdapter = WorkListPagerAdapter(requireActivity())
+        viewPager = view.findViewById(R.id.view_pager)
+        viewPager.adapter = viewPagerAdapter
+        viewPager.setCurrentItem(viewPagerAdapter.itemCount - 1, false)
 
-            dateTabLayout = view.findViewById(R.id.date_tab_layout)
-            TabLayoutMediator(dateTabLayout, viewPager) { tab, position ->
-                val lastIndex = viewPagerAdapter.itemCount - 1
+        dateTabLayout = view.findViewById(R.id.date_tab_layout)
+        TabLayoutMediator(dateTabLayout, viewPager) { tab, position ->
+            val lastIndex = viewPagerAdapter.itemCount - 1
 
-                val date = LocalDate.now().minusDays((lastIndex - position).toLong())
+            val date = LocalDate.now().minusDays((lastIndex - position).toLong())
 
-                val dateText = when(position) {
-                    lastIndex -> getString(R.string.today)
-                    lastIndex - 1 -> getString(R.string.yesterday)
-                    else -> date.toString()
-                }
+            val dateText = when (position) {
+                lastIndex -> getString(R.string.today)
+                lastIndex - 1 -> getString(R.string.yesterday)
+                else -> date.toString()
+            }
 
-                val weekdayText = date.format(DateTimeFormatter.ofPattern("E"))
+            val weekdayText = date.format(DateTimeFormatter.ofPattern("E"))
 
-                tab.text = "$dateText ($weekdayText)"
-            }.attach()
-        }
+            tab.text = "$dateText ($weekdayText)"
+        }.attach()
 
 
         // Setup appbar

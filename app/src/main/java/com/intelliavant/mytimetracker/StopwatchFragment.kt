@@ -41,9 +41,7 @@ class StopwatchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        activity?.let {
-            sm = StopwatchManager.getInstance(it)
-        }
+        sm = StopwatchManager.getInstance(requireActivity())
 
         binding = FragmentStopwatchBinding.inflate(inflater, container, false)
 
