@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.isFabVisible = true
         setContentView(binding.root)
-        setSupportActionBar(findViewById(R.id.toolbar))
+        setSupportActionBar(findViewById(R.id.work_list_toolbar))
 
         sm = StopwatchManager.getInstance(this)
         sm.create()
@@ -92,12 +92,6 @@ class MainActivity : AppCompatActivity() {
         Log.d("STOPWATCH", "MainActivity.onDesctroy()")
         StopwatchManager.getInstance(this).destroy()
         super.onDestroy()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
