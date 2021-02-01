@@ -16,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.intelliavant.mytimetracker.databinding.ActivityMainBinding
 import com.intelliavant.mytimetracker.utils.StopwatchManager
 import com.intelliavant.mytimetracker.viewmodel.WorkListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,9 +24,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val workListViewModel: WorkListViewModel by viewModels()
     private lateinit var sm: StopwatchManager
-    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -41,38 +38,11 @@ class MainActivity : AppCompatActivity() {
             PackageManager.PERMISSION_GRANTED
         )
 
-        // Data binding
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        binding.isFabVisible = true
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.work_list_toolbar))
 
         sm = StopwatchManager.getInstance(this)
         sm.create()
-
-        // show the work type bottom sheet when FAB is clicked
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
-            val fragment = WorkTypeListFragment()
-            fragment.onCreateWorkListener = { workType ->
-                Log.d("STOPWATCH", "workType ${workType.id} clicked")
-                lifecycleScope.launch {
-                    val workId = workListViewModel.createWork(workType.name, workType)
-                    val workName = workType.name
-
-                    // Start StopwatchService
-                    sm.start(workId, workName)
-
-                    // Move to stopwatch fragment
-                    findNavController(R.id.nav_host_fragment).navigate(R.id.action_workListFragment_to_stopwatchFragment)
-                }
-            }
-            fragment.show(supportFragmentManager, fragment.tag)
-        }
-
-        // Hide FAB if not the work list fragment
-        findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener { _, destination, _ ->
-            binding.isFabVisible = (destination.id == R.id.workListFragment);
-        }
     }
 
     override fun onResume() {
