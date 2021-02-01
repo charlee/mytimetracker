@@ -1,14 +1,21 @@
 package com.intelliavant.mytimetracker
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.activity.viewModels
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -40,7 +47,7 @@ class WorkListPagerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true)
+//        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_work_list_pager, container, false)
     }
 
@@ -92,21 +99,40 @@ class WorkListPagerFragment : Fragment() {
 
         // Setup appbar
         // https://developer.android.com/guide/navigation/navigation-ui#support_app_bar_variations
-        // TODO: should use this? or use `setSupportActionBar` in the `MainActivity`?
-//        val navController = findNavController()
-//        val appBarConfiguration = AppBarConfiguration(navController.graph)
-//
-////        view.findViewById<Toolbar>(R.id.work_list_toolbar).setupWithNavController(navController, appBarConfiguration)
-//        setHasOptionsMenu(true)
+        // https://stackoverflow.com/a/54361849/905321
+        val navController = findNavController()
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        val toolbar = view.findViewById<Toolbar>(R.id.work_list_toolbar)
+
+        // since the toolbar does not belong to the activity, we have to handle the menu creation
+        // and menu click handler by ourselves
+        toolbar.inflateMenu(R.menu.menu_work_list)
+        toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_share -> onShare()
+                else -> NavigationUI.onNavDestinationSelected(it, navController)
+            }
+        }
+        toolbar.setupWithNavController(navController, appBarConfiguration)
 
         super.onViewCreated(view, savedInstanceState)
     }
 
+    private fun onShare(): Boolean {
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
+        val workListRecyclerView = requireView().findViewById<RecyclerView>(R.id.work_list_recycler_view)
+        val adapter = workListRecyclerView.adapter as WorkListAdapter
+        val text = adapter.getShareableText()
 
-        Log.d("STOPWATCH", "WorkListPagerFragment.onCreateOptionsMenu() called")
-        inflater.inflate(R.menu.menu_work_list, menu)
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, text)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
+
+        return true
     }
 }

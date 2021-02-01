@@ -4,7 +4,7 @@
     <string name="action_activity_types">Activity Types</string>
 
     <!-- Strings used for fragments for navigation -->
-    <string name="work_list_fragment_label">Work List</string>
+    <string name="work_list_fragment_label">Activities</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
@@ -50,4 +50,7 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="stopwatch_fragment_label">Stopwatch</string>
+    <string name="settings_fragment_label">Settings</string>
+    <string name="settings_activity_types_fragment_label">Activity Types</string>
 </resources>

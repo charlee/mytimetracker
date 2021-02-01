@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/stopwatchFragment"
         android:name="com.intelliavant.mytimetracker.StopwatchFragment"
-        android:label="fragment_stopwatch"
+        android:label="@string/stopwatch_fragment_label"
         tools:layout="@layout/fragment_stopwatch" >
         <action
             android:id="@+id/action_stopwatchFragment_to_workListFragment"
@@ -34,7 +34,7 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.intelliavant.mytimetracker.SettingsFragment"
-        android:label="fragment_settings"
+        android:label="@string/settings_fragment_label"
         >
         <action
             android:id="@+id/action_settingsFragment_to_settingsWorkTypeListFragment"
@@ -45,6 +45,6 @@
     <fragment
         android:id="@+id/settingsWorkTypeListFragment"
         android:name="com.intelliavant.mytimetracker.SettingsWorkTypeListFragment"
-        android:label="fragment_settings_work_list">
+        android:label="@string/settings_activity_types_fragment_label">
     </fragment>
 </navigation>

@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.intelliavant.mytimetracker.utils.StopwatchManager
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById(R.id.work_list_toolbar))
+//        setSupportActionBar(findViewById(R.id.work_list_toolbar))
 
         sm = StopwatchManager.getInstance(this)
         sm.create()
@@ -64,35 +66,4 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> {
-                findNavController(R.id.nav_host_fragment).navigate(R.id.action_workListFragment_to_settingsFragment)
-                true
-            }
-            R.id.action_share -> onShare()
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun onShare(): Boolean {
-
-        val workListRecyclerView = findViewById<RecyclerView>(R.id.work_list_recycler_view)
-        val adapter = workListRecyclerView.adapter as WorkListAdapter
-        val text = adapter.getShareableText()
-
-        val sendIntent: Intent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, text)
-            type = "text/plain"
-        }
-
-        val shareIntent = Intent.createChooser(sendIntent, null)
-        startActivity(shareIntent)
-
-        return true
-    }
 }
