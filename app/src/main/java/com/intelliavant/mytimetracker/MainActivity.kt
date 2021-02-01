@@ -108,23 +108,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        // If back button pressed, find out if current fragment is the stopwatch fragment
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-        if (navHostFragment != null) {
-            val fragment = navHostFragment.childFragmentManager.fragments[0]
-
-            // if currently showing stopwatch, then call its stopWork
-            if (fragment is StopwatchFragment) {
-                fragment.stopWork()
-                return
-            }
-        }
-
-        // otherwise simply pause the activity
-        super.onBackPressed()
-    }
-
     private fun onShare(): Boolean {
 
         val workListRecyclerView = findViewById<RecyclerView>(R.id.work_list_recycler_view)
