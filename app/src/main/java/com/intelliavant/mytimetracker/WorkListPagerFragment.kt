@@ -47,7 +47,7 @@ class WorkListPagerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        setHasOptionsMenu(true)
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_work_list_pager, container, false)
     }
 
@@ -95,44 +95,11 @@ class WorkListPagerFragment : Fragment() {
             fragment.show(parentFragmentManager, fragment.tag)
         }
 
-
-
-        // Setup appbar
-        // https://developer.android.com/guide/navigation/navigation-ui#support_app_bar_variations
-        // https://stackoverflow.com/a/54361849/905321
-        val navController = findNavController()
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-        val toolbar = view.findViewById<Toolbar>(R.id.work_list_toolbar)
-
-        // since the toolbar does not belong to the activity, we have to handle the menu creation
-        // and menu click handler by ourselves
-        toolbar.inflateMenu(R.menu.menu_work_list)
-        toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.action_share -> onShare()
-                else -> NavigationUI.onNavDestinationSelected(it, navController)
-            }
-        }
-        toolbar.setupWithNavController(navController, appBarConfiguration)
-
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun onShare(): Boolean {
-
-        val workListRecyclerView = requireView().findViewById<RecyclerView>(R.id.work_list_recycler_view)
-        val adapter = workListRecyclerView.adapter as WorkListAdapter
-        val text = adapter.getShareableText()
-
-        val sendIntent: Intent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, text)
-            type = "text/plain"
-        }
-
-        val shareIntent = Intent.createChooser(sendIntent, null)
-        startActivity(shareIntent)
-
-        return true
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_work_list, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }
