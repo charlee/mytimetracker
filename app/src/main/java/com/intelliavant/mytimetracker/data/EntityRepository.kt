@@ -12,6 +12,10 @@ import javax.inject.Singleton
 class WorkTypeRepository @Inject constructor(private val workTypeDao: WorkTypeDao) {
 
     fun getWorkTypes() = workTypeDao.getWorkTypes()
+
+    fun findById(id: Long): Flow<WorkType> {
+        return workTypeDao.findById(id)
+    }
 }
 
 

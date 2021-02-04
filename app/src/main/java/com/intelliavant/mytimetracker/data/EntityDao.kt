@@ -41,4 +41,6 @@ interface WorkTypeDao {
     @Query("SELECT * FROM work_type")
     fun getWorkTypes(): Flow<List<WorkType>>
 
+    @Query("SELECT * FROM work_type WHERE id=:id")
+    fun findById(id: Long): Flow<WorkType>
 }

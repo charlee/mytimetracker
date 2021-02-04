@@ -52,5 +52,7 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="stopwatch_fragment_label">Stopwatch</string>
     <string name="settings_fragment_label">Settings</string>
-    <string name="settings_activity_types_fragment_label">Activity Types</string>
+    <string name="settings_activity_types_fragment_label">Edit Activity Types</string>
+    <string name="new_work_type">New Activity Type</string>
+    <string name="save">Save</string>
 </resources>

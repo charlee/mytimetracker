@@ -4,10 +4,13 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.intelliavant.mytimetracker.data.Work
 import com.intelliavant.mytimetracker.data.WorkType
 import com.intelliavant.mytimetracker.data.WorkTypeRepository
 
-class WorkTypeListViewModel @ViewModelInject internal constructor(workTypeRepository: WorkTypeRepository) :
+class WorkTypeListViewModel @ViewModelInject internal constructor(private val workTypeRepository: WorkTypeRepository) :
     ViewModel() {
     val workTypes: LiveData<List<WorkType>> = workTypeRepository.getWorkTypes().asLiveData()
+
+    fun findById(id: Long): LiveData<WorkType> = workTypeRepository.findById(id).asLiveData()
 }
