@@ -56,6 +56,9 @@ dependencies {
     implementation "androidx.room:room-ktx:2.2.6"
     implementation 'com.google.guava:guava:28.0-android'
 
+    // color picker
+    compile 'com.thebluealliance:spectrum:0.7.1'
+
 
     // Hilt
     kapt "com.google.dagger:hilt-android-compiler:$rootProject.hiltVersion"
