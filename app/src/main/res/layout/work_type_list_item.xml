@@ -22,13 +22,22 @@
         android:minHeight="56dp"
         android:onClick="@{clickListener}">
 
+        <View
+            android:id="@+id/work_type_list_item_border"
+            android:layout_width="6dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/list_item_icon"
+            app:layout_constraintBottom_toBottomOf="@id/list_item_icon"
+        />
+
         <ImageView
             android:id="@+id/list_item_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:src="@drawable/ic_baseline_timer_24"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/work_type_list_item_border"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView

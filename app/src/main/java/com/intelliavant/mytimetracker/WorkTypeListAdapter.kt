@@ -33,6 +33,7 @@ class WorkTypeListAdapter :
 
         fun bind(workType: WorkType) {
             binding.workType = workType
+            binding.workTypeListItemBorder.setBackgroundColor(workType.color.toArgb())
             binding.executePendingBindings()
         }
     }
