@@ -50,7 +50,6 @@ class WorkTypeListAdapter :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d("STOPWATCH", "onBindViewHolder: $position")
         holder.bind(getItem(position))
     }
 }
