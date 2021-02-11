@@ -28,7 +28,8 @@ class SettingsWorkTypeFormFragment : Fragment() {
         fun newInstance() = SettingsWorkTypeFormFragment()
     }
 
-    var name: String = "";
+    var workTypeId: Long = 0L
+    var name: String = ""
     var color: Color = Color.valueOf(Color.WHITE)
 
     private val workTypeListViewModel: WorkTypeListViewModel by viewModels()
@@ -42,7 +43,9 @@ class SettingsWorkTypeFormFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val workTypeId = arguments?.getLong("workTypeId") ?: 0L
+
+        // Get the workTypeId parameter
+        workTypeId = arguments?.getLong("workTypeId") ?: 0L
 
         val nameTextInput = view.findViewById<EditText>(R.id.work_type_name_textfield_input)
         val colorPicker = view.findViewById<SpectrumPalette>(R.id.color_picker)
@@ -67,8 +70,14 @@ class SettingsWorkTypeFormFragment : Fragment() {
 
         saveButton.setOnClickListener {
             Log.v("STOPWATCH", "work type saved, name=$name, color=$color")
+            // Save work type
             lifecycleScope.launch {
-                workTypeListViewModel.createWorkType(name, color, false)
+                if (workTypeId > 0) {
+                    // update existing work type
+                    workTypeListViewModel.updateWorkType(workTypeId, name, color, false)
+                } else {
+                    workTypeListViewModel.createWorkType(name, color, false)
+                }
             }
 
             findNavController().popBackStack()

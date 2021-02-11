@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.viewModels
@@ -26,6 +27,13 @@ class SettingsWorkTypeListFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val adapter = WorkTypeListAdapter()
+
+        // If any work type is clicked, invoke the edit form
+        adapter.onWorkTypeClickListener = { workType ->
+
+            val bundle = bundleOf("workTypeId" to workType.id)
+            findNavController().navigate(R.id.action_settingsWorkTypeListFragment_to_settingsWorkTypeFormFragment, bundle)
+        }
 
         binding = FragmentSettingsWorkTypeListFragmentBinding.inflate(inflater, container, false)
         binding.workTypeList.adapter = adapter

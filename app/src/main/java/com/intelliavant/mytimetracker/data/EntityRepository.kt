@@ -25,6 +25,12 @@ class WorkTypeRepository @Inject constructor(private val workTypeDao: WorkTypeDa
             workTypeDao.insert(workType)
         }
     }
+
+    suspend fun updateWorkType(id: Long, name: String, color: Color, effective: Boolean) {
+        return withContext(Dispatchers.IO) {
+            workTypeDao.updateWorkType(id, name, color,effective)
+        }
+    }
 }
 
 
