@@ -1,5 +1,6 @@
 package com.intelliavant.mytimetracker.data
 
+import android.graphics.Color
 import kotlinx.coroutines.Dispatchers
 import java.lang.IllegalArgumentException
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +16,14 @@ class WorkTypeRepository @Inject constructor(private val workTypeDao: WorkTypeDa
 
     fun findById(id: Long): Flow<WorkType> {
         return workTypeDao.findById(id)
+    }
+
+    suspend fun createWorkType(name: String, color: Color, effective: Boolean): Long {
+        val workType = WorkType(null, name, color, effective)
+
+        return withContext(Dispatchers.IO) {
+            workTypeDao.insert(workType)
+        }
     }
 }
 

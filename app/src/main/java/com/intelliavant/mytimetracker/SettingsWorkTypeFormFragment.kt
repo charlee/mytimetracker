@@ -12,10 +12,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.intelliavant.mytimetracker.viewmodel.WorkTypeListViewModel
 import com.thebluealliance.spectrum.SpectrumPalette
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlin.coroutines.coroutineContext
 
 @AndroidEntryPoint
 class SettingsWorkTypeFormFragment : Fragment() {
@@ -63,6 +67,10 @@ class SettingsWorkTypeFormFragment : Fragment() {
 
         saveButton.setOnClickListener {
             Log.v("STOPWATCH", "work type saved, name=$name, color=$color")
+            lifecycleScope.launch {
+                workTypeListViewModel.createWorkType(name, color, false)
+            }
+
             findNavController().popBackStack()
         }
     }

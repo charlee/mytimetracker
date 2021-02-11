@@ -33,7 +33,7 @@ interface WorkDao {
 interface WorkTypeDao {
 
     @Insert
-    suspend fun insert(workType: WorkType)
+    suspend fun insert(workType: WorkType): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(workTypes: List<WorkType>)
