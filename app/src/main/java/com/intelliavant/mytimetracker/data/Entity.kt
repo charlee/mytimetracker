@@ -31,11 +31,15 @@ data class WorkType(
 )
 
 
-//data class WorkWithWorkType(
-//    @Embedded val workType: WorkType,
-//    @Relation(
-//        parentColumn = "id",
-//        entityColumn = "id"
-//    )
-//    val works: List<Work>
-//)
+/**
+ * Work entity with workType filled automatically.
+ */
+data class WorkWithWorkType(
+    @Embedded val work: Work,
+    @Relation(
+        parentColumn = "worktype_id",
+        entityColumn = "id"
+    )
+    val workType: WorkType
+
+)

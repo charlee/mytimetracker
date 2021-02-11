@@ -54,8 +54,6 @@ class ScrollAwareFABBehavior(context: Context, attrs: AttributeSet): FloatingAct
             consumed
         )
 
-        Log.v("STOPWATCH", "onNestedScroll called, dyConsumed = $dyConsumed")
-
         if (dyConsumed > 0 && child.visibility == View.VISIBLE) {
             child.hide(object: FloatingActionButton.OnVisibilityChangedListener() {
                 override fun onHidden(fab: FloatingActionButton?) {

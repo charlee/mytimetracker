@@ -6,13 +6,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.intelliavant.mytimetracker.data.Work
+import com.intelliavant.mytimetracker.data.WorkWithWorkType
 import com.intelliavant.mytimetracker.databinding.WorkListItemBinding
 import com.intelliavant.mytimetracker.utils.formatTime
-import com.intelliavant.mytimetracker.viewmodel.WorkViewModel
 
 class WorkListAdapter() :
-    ListAdapter<Work, WorkListAdapter.ViewHolder>(
+    ListAdapter<WorkWithWorkType, WorkListAdapter.ViewHolder>(
         WorkDiffCallback()
     ) {
 
@@ -23,8 +22,9 @@ class WorkListAdapter() :
         init {
         }
 
-        fun bind(work: Work) {
-            binding.work = work
+        fun bind(work: WorkWithWorkType) {
+            binding.work = work.work
+            binding.workListItemBorder.setBackgroundColor(work.workType.color.toArgb())
             binding.executePendingBindings()
         }
     }
@@ -46,18 +46,18 @@ class WorkListAdapter() :
 
     fun getShareableText(): String {
         val text =
-            currentList.joinToString("\n") { work -> "${work.name}: ${formatTime(work.duration)}" }
+            currentList.joinToString("\n") { work -> "${work.work.name}: ${formatTime(work.work.duration)}" }
         return "$dateText\n$text"
     }
 }
 
 
-private class WorkDiffCallback : DiffUtil.ItemCallback<Work>() {
-    override fun areContentsTheSame(oldItem: Work, newItem: Work): Boolean {
-        return oldItem.id == newItem.id
+private class WorkDiffCallback : DiffUtil.ItemCallback<WorkWithWorkType>() {
+    override fun areContentsTheSame(oldItem: WorkWithWorkType, newItem: WorkWithWorkType): Boolean {
+        return oldItem.work.id == newItem.work.id
     }
 
-    override fun areItemsTheSame(oldItem: Work, newItem: Work): Boolean {
-        return oldItem == newItem
+    override fun areItemsTheSame(oldItem: WorkWithWorkType, newItem: WorkWithWorkType): Boolean {
+        return oldItem.work == newItem.work
     }
 }

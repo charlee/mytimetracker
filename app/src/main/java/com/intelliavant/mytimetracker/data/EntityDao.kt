@@ -16,13 +16,13 @@ interface WorkDao {
     suspend fun insert(work: Work): Long
 
     @Query("SELECT * FROM work")
-    fun getWorks(): Flow<List<Work>>
+    fun getWorks(): Flow<List<WorkWithWorkType>>
 
     @Query("SELECT * FROM work WHERE date=:date")
-    fun findByDate(date: LocalDate): Flow<List<Work>>
+    fun findByDate(date: LocalDate): Flow<List<WorkWithWorkType>>
 
     @Query("SELECT * FROM work WHERE id=:id")
-    fun findById(id: Long): Flow<Work>
+    fun findById(id: Long): Flow<WorkWithWorkType>
 
     @Query("UPDATE work SET duration=:duration WHERE id=:id")
     fun updateDuration(id: Long, duration: Long)
