@@ -1,12 +1,15 @@
 package com.intelliavant.mytimetracker.data
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Color
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.intelliavant.mytimetracker.MainApplication
+import com.intelliavant.mytimetracker.R
 import com.intelliavant.mytimetracker.utils.ioThread
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.GlobalScope
@@ -33,6 +36,16 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         private fun buildDatabase(context: Context): AppDatabase {
+            val context = MainApplication.context
+            val colors = context.resources.getIntArray(R.array.work_type_colors)
+
+            val prepopulatedWorkTypes = listOf(
+                WorkType(null, "Homework", Color.valueOf(colors[0]), true),
+                WorkType(null, "Reading", Color.valueOf(colors[1]), true),
+                WorkType(null, "Outdoor", Color.valueOf(colors[2]), true),
+            )
+
+
             return Room.databaseBuilder(context, AppDatabase::class.java, "stopwatch")
                 .addCallback(
                     object : RoomDatabase.Callback() {
@@ -40,19 +53,13 @@ abstract class AppDatabase : RoomDatabase() {
                             super.onCreate(db)
 
                             GlobalScope.launch {
-                                getInstance(context).workTypeDao().insertAll(PREPOPULATED_WORKTYPES)
+                                getInstance(context).workTypeDao().insertAll(prepopulatedWorkTypes)
                             }
                         }
                     }
                 )
                 .build()
         }
-
-        val PREPOPULATED_WORKTYPES = listOf(
-            WorkType(null, "Computer", Color.valueOf(Color.parseColor("#fce4ec")), true),
-            WorkType(null, "English", Color.valueOf(Color.parseColor("#dcedc8")), true),
-            WorkType(null, "Math", Color.valueOf(Color.parseColor("#fff9c4")), true),
-        )
     }
 
 }
