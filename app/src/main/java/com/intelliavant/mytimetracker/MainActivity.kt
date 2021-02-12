@@ -89,6 +89,10 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return when (item.itemId) {
             R.id.action_share -> onShare()
+            R.id.settingsFragment -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.action_workListFragment_to_settingsFragment)
+                return true
+            }
             else -> NavigationUI.onNavDestinationSelected(item, navController)
         }
     }

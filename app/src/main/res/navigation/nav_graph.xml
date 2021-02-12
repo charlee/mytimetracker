@@ -12,10 +12,18 @@
         tools:layout="@layout/fragment_work_list">
         <action
             android:id="@+id/action_workListFragment_to_stopwatchFragment"
-            app:destination="@id/stopwatchFragment" />
+            app:destination="@id/stopwatchFragment"
+            app:enterAnim="@anim/zoom_in_from_center"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@anim/zoom_out_to_center" />
         <action
             android:id="@+id/action_workListFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/zoom_in_from_top_right"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@anim/zoom_out_to_top_right" />
         />
     </fragment>
     <fragment
@@ -31,13 +39,14 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.intelliavant.mytimetracker.SettingsFragment"
-        android:label="@string/settings_fragment_label"
-        >
+        android:label="@string/settings_fragment_label">
         <action
             android:id="@+id/action_settingsFragment_to_settingsWorkTypeListFragment"
             app:destination="@id/settingsWorkTypeListFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
 
     </fragment>
 
@@ -45,25 +54,25 @@
         android:id="@+id/settingsWorkTypeListFragment"
         android:name="com.intelliavant.mytimetracker.SettingsWorkTypeListFragment"
         android:label="@string/settings_activity_types_fragment_label"
-        tools:layout="@layout/fragment_settings_work_type_list_fragment"
-        >
+        tools:layout="@layout/fragment_settings_work_type_list_fragment">
 
         <action
             android:id="@+id/action_settingsWorkTypeListFragment_to_settingsWorkTypeFormFragment"
             app:destination="@id/settingsWorkTypeFormFragment"
-            app:enterAnim="@anim/nav_default_pop_enter_anim"
-            app:exitAnim="@anim/nav_default_pop_exit_anim" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
 
     <fragment
         android:id="@+id/settingsWorkTypeFormFragment"
         android:name="com.intelliavant.mytimetracker.SettingsWorkTypeFormFragment"
         android:label="@string/new_work_type"
-        tools:layout="@layout/fragment_settings_work_type_form"
-        >
+        tools:layout="@layout/fragment_settings_work_type_form">
         <argument
             android:name="workTypeId"
-            app:argType="long"/>
+            app:argType="long" />
     </fragment>
 
 
