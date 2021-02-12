@@ -14,16 +14,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
         >
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="360dp"
-        android:maxHeight="360dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="120dp"
         tools:context=".StopwatchFragment">
 
         <TextView
@@ -55,6 +52,8 @@
             android:layout_width="128dp"
             android:layout_height="128dp"
             android:layout_marginBottom="64dp"
+            android:layout_marginTop="64dp"
+
             app:icon="@{isRunning ? @drawable/ic_baseline_pause_64 : @drawable/ic_baseline_play_arrow_64}"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
@@ -66,19 +65,20 @@
             android:insetBottom="0dp"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyTimeTracker.Button.Circle"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timer_text_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
         <Button
             android:id="@+id/stop_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
             android:layout_marginBottom="0dp"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:gravity="center"
             android:text="Stop Activity"
             android:visibility="@{isRunning ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pause_resume_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

@@ -46,7 +46,15 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.work_list_toolbar))
 
         val navController = findNavController(R.id.nav_host_fragment)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
+
+//        appBarConfiguration = AppBarConfiguration(navController.graph)
+        // Set workListFragment and stopwatchFragment as root so that Up button won't show on the stopwatchFragment.
+        // https://stackoverflow.com/questions/56670215/hide-toolbar-back-arrow-with-navigationcomponent-and-bottomnavigationview
+        appBarConfiguration = AppBarConfiguration.Builder(
+            R.id.workListFragment,
+            R.id.stopwatchFragment
+        ).build()
+
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         sm = StopwatchManager.getInstance(this)
