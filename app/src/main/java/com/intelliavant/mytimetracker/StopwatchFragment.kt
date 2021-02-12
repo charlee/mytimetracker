@@ -1,5 +1,6 @@
 package com.intelliavant.mytimetracker
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -76,18 +77,24 @@ class StopwatchFragment : Fragment() {
     }
 
     fun stopWork() {
+        // TODO: replace with isNightModeActive after SDK upgrade
+        val isNightMode = when (requireActivity().resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> true
+            else -> false
+        }
+        val icon = if (isNightMode) R.drawable.ic_round_warning_24_night else R.drawable.ic_round_warning_24
+
         AlertDialog.Builder(requireActivity())
             .setTitle("Stop activity")
             .setMessage("Are you sure to stop this activity?")
             .setPositiveButton(R.string.stop) { dialog, _ ->
-                Log.d("STOPWATCH", "stop work")
                 dialog.dismiss()
                 sm.stop()
 
                 findNavController().popBackStack()
             }
             .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
-            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setIcon(icon)
             .show()
 
     }

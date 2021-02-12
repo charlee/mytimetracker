@@ -69,7 +69,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="120dp"
             android:layout_marginBottom="0dp"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:gravity="center"
             android:text="Stop Activity"
             android:visibility="@{isRunning ? View.GONE : View.VISIBLE}"
