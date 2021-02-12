@@ -88,6 +88,7 @@ class StopwatchManager(private val context: Context) {
     }
 
     private fun unregisterBroadcastReceiver() {
+        Log.d("STOPWATCH", "unregister broadcast receiver")
         context.unregisterReceiver(broadcastReceiver)
     }
 
@@ -135,12 +136,14 @@ class StopwatchManager(private val context: Context) {
         mService.resume()
     }
 
-    fun create() {
+    fun onCreate() {
         Log.d("STOPWATCH", "StopwatchManager.init called")
         // create notification channel
         createNotificationChannel()
         registerBroadcastReceiver()
+    }
 
+    fun onResume() {
         // Check if service is running, if so, bind it
         if (isStopwatchServiceRunning()) {
             Log.d("STOPWATCH", "StopwatchService already running, bind")
@@ -148,9 +151,12 @@ class StopwatchManager(private val context: Context) {
         }
     }
 
-    fun destroy() {
-        unregisterBroadcastReceiver()
+    fun onPause() {
         unbindService()
+    }
+
+    fun onDestroy() {
+        unregisterBroadcastReceiver()
     }
 
     companion object {

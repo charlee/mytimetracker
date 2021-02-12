@@ -1,28 +1,18 @@
 package com.intelliavant.mytimetracker
 
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
-import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.intelliavant.mytimetracker.utils.StopwatchManager
-import com.intelliavant.mytimetracker.viewmodel.WorkListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -58,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         sm = StopwatchManager.getInstance(this)
-        sm.create()
+        sm.onCreate()
     }
 
     /**
@@ -74,6 +64,9 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         Log.d("STOPWATCH", "MainActivity.onResume()")
         super.onResume()
+
+        sm.onResume()
+
         // Recover stopwatch fragment if service is running and current fragment is the main fragment
         if (sm.isStopwatchServiceRunning()) {
             val navController = findNavController(R.id.nav_host_fragment)
@@ -81,12 +74,18 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.action_workListFragment_to_stopwatchFragment)
             }
         }
-
     }
+
+    override fun onPause() {
+        Log.d("STOPWATCH", "MainActivity.onPause()")
+        super.onPause()
+        sm.onPause()
+    }
+
 
     override fun onDestroy() {
         Log.d("STOPWATCH", "MainActivity.onDesctroy()")
-        StopwatchManager.getInstance(this).destroy()
+        sm.onDestroy()
         super.onDestroy()
     }
 
