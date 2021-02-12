@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+<Preference android:key="work_types"
+    android:summary="@string/add_or_change_activity_types"
+    android:icon="@drawable/ic_baseline_assignment_24_night"
+    android:title="@string/activity_types">
+</Preference>
+
+<Preference
+    android:key="about"
+    android:summary="@string/about_this_app"
+    android:icon="@drawable/ic_baseline_info_24_night"
+    android:title="@string/about">
+</Preference>
+
+</PreferenceScreen>

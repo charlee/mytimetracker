@@ -60,7 +60,7 @@ class StopwatchFragment : Fragment() {
         }
 
         // Setup background color
-        binding.stopwatchLayout.setBackgroundColor(sm.color)
+//        binding.stopwatchLayout.setBackgroundColor(sm.color)
 
         sm.onUpdate = { elapsedMilliseconds, isRunning ->
             binding.isRunning = isRunning
