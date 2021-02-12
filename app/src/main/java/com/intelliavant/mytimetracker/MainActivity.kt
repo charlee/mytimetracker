@@ -53,6 +53,16 @@ class MainActivity : AppCompatActivity() {
         sm.create()
     }
 
+    /**
+     * Override this function to handle the action when the toolbar navigation button is clicked.
+     */
+    override fun onSupportNavigateUp(): Boolean {
+        // Since we called `setupActionBarWithNavController()` and connected the toolbar with the navcontroller,
+        // we need to override this function to provide Up button action.
+        // https://medium.com/@ermarajhussain/how-to-work-with-navigation-controller-in-android-with-kotlin-part-2-152aa6dc3839
+        return findNavController(R.id.nav_host_fragment).navigateUp() || super.onSupportNavigateUp()
+    }
+
     override fun onResume() {
         Log.d("STOPWATCH", "MainActivity.onResume()")
         super.onResume()
