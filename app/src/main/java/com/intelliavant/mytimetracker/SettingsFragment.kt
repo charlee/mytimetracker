@@ -21,5 +21,11 @@ class SettingsFragment: PreferenceFragmentCompat() {
             findNavController().navigate(R.id.action_settingsFragment_to_settingsWorkTypeListFragment)
             true
         }
+
+        val aboutPref = findPreference<Preference>("about")
+        aboutPref?.setOnPreferenceClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_settingsAboutFragment)
+            true
+        }
     }
 }

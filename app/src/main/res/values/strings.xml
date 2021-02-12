@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyTime Tracker</string>
+    <string name="app_name">My Time Tracker</string>
     <string name="action_settings">Settings</string>
     <string name="action_activity_types">Activity Types</string>
 
@@ -56,4 +56,8 @@
     <string name="new_work_type">New Activity Type</string>
     <string name="save">Save</string>
     <string name="color">Color</string>
+    <string name="about">About</string>
+    <string name="about_this_app">About this app</string>
+    <string name="activity_types">Activity types</string>
+    <string name="add_or_change_activity_types">Add or change activity types</string>
 </resources>

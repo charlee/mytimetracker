@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference android:key="work_types"
-        android:summary="Add or change activity types"
+        android:summary="@string/add_or_change_activity_types"
         android:icon="@drawable/ic_baseline_assignment_24"
-        android:title="Activity types">
-
+        android:title="@string/activity_types">
     </Preference>
 
     <Preference
-        app:key="about"
-        app:summary="About this app"
+        android:key="about"
+        android:summary="@string/about_this_app"
         android:icon="@drawable/ic_baseline_info_24"
-        app:title="About">
+        android:title="@string/about">
     </Preference>
 
 </PreferenceScreen>
