@@ -86,7 +86,7 @@ class WorkListPagerFragment : Fragment() {
                     val workName = workType.name
 
                     // Start StopwatchService
-                    sm.start(workId, workName)
+                    sm.start(workId, workName, workType.color.toArgb())
 
                     // Move to stopwatch fragment
                     findNavController().navigate(R.id.action_workListFragment_to_stopwatchFragment)

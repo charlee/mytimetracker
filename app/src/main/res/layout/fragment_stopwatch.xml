@@ -11,23 +11,18 @@
         <variable name="isRunning" type="Boolean"/>
     </data>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/stopwatch_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_height="match_parent"
         tools:context=".StopwatchFragment">
 
         <TextView
             android:id="@+id/work_name_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="120dp"
             android:layout_marginBottom="32dp"
             android:text="@{workName}"
             android:textAlignment="center"
@@ -82,7 +77,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
 </layout>

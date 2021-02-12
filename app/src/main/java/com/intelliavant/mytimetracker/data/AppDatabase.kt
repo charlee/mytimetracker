@@ -8,6 +8,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.intelliavant.mytimetracker.utils.ioThread
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -47,11 +48,10 @@ abstract class AppDatabase : RoomDatabase() {
                 .build()
         }
 
-
         val PREPOPULATED_WORKTYPES = listOf(
-            WorkType(null, "Computer", Color.valueOf(1.0f, 0.0f, 0.0f), true),
-            WorkType(null, "English", Color.valueOf(0.0f, 1.0f, 0.0f), true),
-            WorkType(null, "Math", Color.valueOf(0.0f, 0.0f, 1.0f), true),
+            WorkType(null, "Computer", Color.valueOf(Color.parseColor("#fce4ec")), true),
+            WorkType(null, "English", Color.valueOf(Color.parseColor("#dcedc8")), true),
+            WorkType(null, "Math", Color.valueOf(Color.parseColor("#fff9c4")), true),
         )
     }
 

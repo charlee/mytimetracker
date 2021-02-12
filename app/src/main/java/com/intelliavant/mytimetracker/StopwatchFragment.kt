@@ -45,6 +45,7 @@ class StopwatchFragment : Fragment() {
 
         binding = FragmentStopwatchBinding.inflate(inflater, container, false)
 
+        // The big pause/resume button
         binding.pauseResumeButton.setOnClickListener {
             if (sm.isRunning) {
                 sm.pause()
@@ -53,15 +54,20 @@ class StopwatchFragment : Fragment() {
             }
         }
 
+        // Stop button handler
         binding.stopButton.setOnClickListener {
             stopWork()
         }
+
+        // Setup background color
+        binding.stopwatchLayout.setBackgroundColor(sm.color)
 
         sm.onUpdate = { elapsedMilliseconds, isRunning ->
             binding.isRunning = isRunning
             binding.timerText = formatTime(elapsedMilliseconds)
         }
 
+        // Name and state
         binding.workName = sm.workName
         binding.isRunning = sm.isRunning
         binding.timerText = formatTime(sm.elapsedMilliseconds)

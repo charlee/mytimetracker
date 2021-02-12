@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.content.*
 import android.os.IBinder
 import android.util.Log
+import androidx.annotation.ColorInt
 import com.intelliavant.mytimetracker.R
 import com.intelliavant.mytimetracker.StopwatchService
 
@@ -25,6 +26,9 @@ class StopwatchManager(private val context: Context) {
         private set
 
     var workName = ""
+        private set
+
+    var color = 0
         private set
 
     var onUpdate: OnUpdateListener? = null
@@ -87,15 +91,17 @@ class StopwatchManager(private val context: Context) {
         context.unregisterReceiver(broadcastReceiver)
     }
 
-    fun start(workId: Long, workName: String) {
+    fun start(workId: Long, workName: String, color: Int) {
         Log.d("STOPWATCH", "MainActivity::startStopwatch()")
 
         this.workName = workName
+        this.color = color
 
         val serviceIntent = Intent(context, StopwatchService::class.java).apply {
             action = context.getString(R.string.intent_action_start_stopwatch)
             putExtra("work_id", workId)
             putExtra("work_name", workName)
+            putExtra("color", color)
         }
         context.startService(serviceIntent)
 
