@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyTimeTracker</string>
+    <string name="app_name">Focus</string>
     <string name="action_settings">Settings</string>
     <string name="action_activity_types">Activity Types</string>
 
