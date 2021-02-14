@@ -1,9 +1,6 @@
 package com.intelliavant.mytimetracker
 
-import android.app.Notification
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Binder
@@ -68,6 +65,8 @@ class StopwatchService : Service() {
             }
         }, 0, 100)
 
+        createNotificationChannel()
+
         startForeground(NOTIFICATION_ID, getNotification())
     }
 
@@ -77,6 +76,20 @@ class StopwatchService : Service() {
         timerIntent.putExtra("elapsedMilliseconds", elapsedMilliseconds)
         timerIntent.putExtra("isRunning", isRunning)
         sendBroadcast(timerIntent)
+    }
+
+    private fun createNotificationChannel() {
+        val channelId = getString(R.string.notification_channel_id)
+        val name = getString(R.string.notification_channel_name)
+        val descriptionText = getString(R.string.notification_channel_description)
+        val mChannel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_DEFAULT)
+        mChannel.description = descriptionText
+
+        // Register the channel with the system; you can't change the importance
+        // or other notification behaviors after this
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(mChannel)
     }
 
     private fun updateNotification() {

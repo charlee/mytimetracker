@@ -17,7 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var sm: StopwatchManager
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,9 +45,6 @@ class MainActivity : AppCompatActivity() {
         ).build()
 
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        sm = StopwatchManager.getInstance(this)
-        sm.onCreate()
     }
 
     /**
@@ -65,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("STOPWATCH", "MainActivity.onResume()")
         super.onResume()
 
+        val sm = StopwatchManager.getInstance(this)
         sm.onResume()
 
         // Recover stopwatch fragment if service is running and current fragment is the main fragment
@@ -79,14 +76,7 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         Log.d("STOPWATCH", "MainActivity.onPause()")
         super.onPause()
-        sm.onPause()
-    }
-
-
-    override fun onDestroy() {
-        Log.d("STOPWATCH", "MainActivity.onDesctroy()")
-        sm.onDestroy()
-        super.onDestroy()
+        StopwatchManager.getInstance(this).onPause()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

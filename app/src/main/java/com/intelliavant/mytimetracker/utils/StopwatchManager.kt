@@ -56,20 +56,6 @@ class StopwatchManager(private val context: Context) {
         return false;
     }
 
-    private fun createNotificationChannel() {
-        val channelId = context.getString(R.string.notification_channel_id)
-        val name = context.getString(R.string.notification_channel_name)
-        val descriptionText = context.getString(R.string.notification_channel_description)
-        val mChannel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_DEFAULT)
-        mChannel.description = descriptionText
-
-        // Register the channel with the system; you can't change the importance
-        // or other notification behaviors after this
-        val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(mChannel)
-    }
-
     private fun registerBroadcastReceiver() {
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -90,6 +76,36 @@ class StopwatchManager(private val context: Context) {
     private fun unregisterBroadcastReceiver() {
         Log.d("STOPWATCH", "unregister broadcast receiver")
         context.unregisterReceiver(broadcastReceiver)
+    }
+
+    private fun bindService() {
+        // create a bound service
+        // https://developer.android.com/guide/components/bound-services#bind-started-service
+        Intent(context, StopwatchService::class.java).also { intent ->
+            context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        }
+
+        // register boardcast receiver to receive broadcast from service
+        registerBroadcastReceiver()
+    }
+
+    private fun unbindService() {
+        if (mBound) {
+            context.unbindService(connection)
+            unregisterBroadcastReceiver()
+        }
+    }
+
+    fun onResume() {
+        // Check if service is running, if so, bind it
+        if (isStopwatchServiceRunning()) {
+            Log.d("STOPWATCH", "StopwatchService already running, bind")
+            bindService()
+        }
+    }
+
+    fun onPause() {
+        unbindService()
     }
 
     fun start(workId: Long, workName: String, color: Int) {
@@ -114,20 +130,6 @@ class StopwatchManager(private val context: Context) {
         unbindService()
     }
 
-    private fun bindService() {
-        // create a bound service
-        // https://developer.android.com/guide/components/bound-services#bind-started-service
-        Intent(context, StopwatchService::class.java).also { intent ->
-            context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
-        }
-    }
-
-    private fun unbindService() {
-        if (mBound) {
-            context.unbindService(connection)
-        }
-    }
-
     fun pause() {
         mService.pause()
     }
@@ -136,28 +138,6 @@ class StopwatchManager(private val context: Context) {
         mService.resume()
     }
 
-    fun onCreate() {
-        Log.d("STOPWATCH", "StopwatchManager.init called")
-        // create notification channel
-        createNotificationChannel()
-        registerBroadcastReceiver()
-    }
-
-    fun onResume() {
-        // Check if service is running, if so, bind it
-        if (isStopwatchServiceRunning()) {
-            Log.d("STOPWATCH", "StopwatchService already running, bind")
-            bindService()
-        }
-    }
-
-    fun onPause() {
-        unbindService()
-    }
-
-    fun onDestroy() {
-        unregisterBroadcastReceiver()
-    }
 
     companion object {
         @Volatile
