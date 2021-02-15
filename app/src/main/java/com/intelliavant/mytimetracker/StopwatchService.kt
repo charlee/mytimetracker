@@ -73,6 +73,7 @@ class StopwatchService : Service() {
     private fun broadcastStatus() {
         val timerIntent = Intent()
         timerIntent.action = getString(R.string.intent_action_time_elasped)
+        timerIntent.putExtra("workName", workName)
         timerIntent.putExtra("elapsedMilliseconds", elapsedMilliseconds)
         timerIntent.putExtra("isRunning", isRunning)
         sendBroadcast(timerIntent)
@@ -159,6 +160,10 @@ class StopwatchService : Service() {
             Log.d("STOPWATCH", "workName=${workName}")
 
             resume()
+        }
+
+        if (intent?.action == getString(R.string.intent_action_query_state)) {
+            broadcastStatus()
         }
 
         return START_STICKY

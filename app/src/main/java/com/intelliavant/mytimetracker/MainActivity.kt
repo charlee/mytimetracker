@@ -11,7 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.intelliavant.mytimetracker.utils.StopwatchManager
+import com.intelliavant.mytimetracker.utils.StopwatchServiceUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
-        // Request foereground service permission
+        // Request foreeground service permission
         requestPermissions(
             arrayOf(android.Manifest.permission.FOREGROUND_SERVICE),
             PackageManager.PERMISSION_GRANTED
@@ -58,25 +58,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        Log.d("STOPWATCH", "MainActivity.onResume()")
         super.onResume()
 
-        val sm = StopwatchManager.getInstance(this)
-        sm.onResume()
-
         // Recover stopwatch fragment if service is running and current fragment is the main fragment
-        if (sm.isStopwatchServiceRunning()) {
+        if (StopwatchServiceUtils.isStopwatchServiceRunning(this)) {
             val navController = findNavController(R.id.nav_host_fragment)
             if (navController.currentDestination?.id == R.id.workListFragment) {
                 navController.navigate(R.id.action_workListFragment_to_stopwatchFragment)
             }
         }
-    }
-
-    override fun onPause() {
-        Log.d("STOPWATCH", "MainActivity.onPause()")
-        super.onPause()
-        StopwatchManager.getInstance(this).onPause()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

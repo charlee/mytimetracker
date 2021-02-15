@@ -19,6 +19,7 @@
     <string name="stop">Stop</string>
 
     <string name="intent_action_start_stopwatch">INTENT_ACTION_START_STOPWATCH</string>
+    <string name="intent_action_query_state">INTENT_ACTION_QUERY_STATE</string>
     <string name="intent_action_pause_resume_stopwatch">INTENT_ACTION_PAUSE_RESUME_STOPWATCH</string>
     <string name="intent_action_time_elasped">INTENT_ACTION_TIME_ELASPED</string>
     <string name="choose_activity_type">Choose activity type</string>

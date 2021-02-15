@@ -1,5 +1,9 @@
 package com.intelliavant.mytimetracker
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.intelliavant.mytimetracker.databinding.FragmentStopwatchBinding
-import com.intelliavant.mytimetracker.utils.StopwatchManager
+import com.intelliavant.mytimetracker.utils.StopwatchServiceUtils
 import com.intelliavant.mytimetracker.utils.formatTime
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +24,15 @@ class StopwatchFragment : Fragment() {
 
     private lateinit var binding: FragmentStopwatchBinding
 
-    private lateinit var sm: StopwatchManager
+    private val broadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            intent?.extras?.apply {
+                binding.workName = getString("workName")
+                binding.isRunning = getBoolean("isRunning")
+                binding.timerText = formatTime(getLong("elapsedMilliseconds"))
+            }
+        }
+    }
 
     // Handle back button
     // https://developer.android.com/guide/navigation/navigation-custom-back
@@ -42,17 +54,11 @@ class StopwatchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        sm = StopwatchManager.getInstance(requireActivity())
-
         binding = FragmentStopwatchBinding.inflate(inflater, container, false)
 
         // The big pause/resume button
         binding.pauseResumeButton.setOnClickListener {
-            if (sm.isRunning) {
-                sm.pause()
-            } else {
-                sm.resume()
-            }
+            StopwatchServiceUtils.pauseResumeStopwatch(requireContext())
         }
 
         // Stop button handler
@@ -60,36 +66,44 @@ class StopwatchFragment : Fragment() {
             stopWork()
         }
 
-        // Setup background color
-//        binding.stopwatchLayout.setBackgroundColor(sm.color)
-
-        sm.onUpdate = { elapsedMilliseconds, isRunning ->
-            binding.isRunning = isRunning
-            binding.timerText = formatTime(elapsedMilliseconds)
-        }
-
-        // Name and state
-        binding.workName = sm.workName
-        binding.isRunning = sm.isRunning
-        binding.timerText = formatTime(sm.elapsedMilliseconds)
-
         return binding.root
+    }
+
+    override fun onPause() {
+        // stop receiving broadcast when paused
+        requireActivity().unregisterReceiver(broadcastReceiver)
+        super.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // start receiving broadcast when resumed
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(getString(R.string.intent_action_time_elasped))
+
+        requireActivity().registerReceiver(broadcastReceiver, intentFilter)
+
+        // query service for initial data
+        StopwatchServiceUtils.query(requireContext())
     }
 
     fun stopWork() {
         // TODO: replace with isNightModeActive after SDK upgrade
-        val isNightMode = when (requireActivity().resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
-            Configuration.UI_MODE_NIGHT_YES -> true
-            else -> false
-        }
-        val icon = if (isNightMode) R.drawable.ic_round_warning_24_night else R.drawable.ic_round_warning_24
+        val isNightMode =
+            when (requireActivity().resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+                Configuration.UI_MODE_NIGHT_YES -> true
+                else -> false
+            }
+        val icon =
+            if (isNightMode) R.drawable.ic_round_warning_24_night else R.drawable.ic_round_warning_24
 
         AlertDialog.Builder(requireActivity())
             .setTitle("Stop activity")
             .setMessage("Are you sure to stop this activity?")
             .setPositiveButton(R.string.stop) { dialog, _ ->
                 dialog.dismiss()
-                sm.stop()
+                StopwatchServiceUtils.stopStopwatchService(requireContext())
 
                 findNavController().popBackStack()
             }

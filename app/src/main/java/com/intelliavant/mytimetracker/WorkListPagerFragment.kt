@@ -1,26 +1,17 @@
 package com.intelliavant.mytimetracker
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.activity.viewModels
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.intelliavant.mytimetracker.utils.StopwatchManager
+import com.intelliavant.mytimetracker.utils.StopwatchServiceUtils
 import com.intelliavant.mytimetracker.viewmodel.WorkListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -36,12 +27,6 @@ class WorkListPagerFragment : Fragment() {
     private val workListViewModel: WorkListViewModel by viewModels()
     private lateinit var viewPager: ViewPager2
     private lateinit var dateTabLayout: TabLayout
-    private lateinit var sm: StopwatchManager
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sm = StopwatchManager.getInstance(requireActivity())
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,7 +71,7 @@ class WorkListPagerFragment : Fragment() {
                     val workName = workType.name
 
                     // Start StopwatchService
-                    sm.start(workId, workName, workType.color.toArgb())
+                    StopwatchServiceUtils.startStopwatchService(requireContext(), workId, workName, workType.color.toArgb())
 
                     // Move to stopwatch fragment
                     findNavController().navigate(R.id.action_workListFragment_to_stopwatchFragment)
