@@ -10,6 +10,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -22,14 +24,32 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class StopwatchFragment : Fragment() {
 
+    // Blinking animation on the text
+    private val blinking = AlphaAnimation(0.0f, 1.0f).apply {
+        duration = 500
+        startOffset = 0
+        repeatMode = Animation.REVERSE
+        repeatCount = Animation.INFINITE
+    }
+
     private lateinit var binding: FragmentStopwatchBinding
 
     private val broadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             intent?.extras?.apply {
+                val elapsedMilliseconds = getLong("elapsedMilliseconds")
+                val isRunning = getBoolean("isRunning")
+
                 binding.workName = getString("workName")
-                binding.isRunning = getBoolean("isRunning")
-                binding.timerText = formatTime(getLong("elapsedMilliseconds"))
+                binding.isRunning = isRunning
+                binding.timerText = formatTime(elapsedMilliseconds)
+
+                // show blinking effect if the stopwatch is not running
+                if (!isRunning && elapsedMilliseconds >= 1000) {
+                    binding.timerTextView.startAnimation(blinking)
+                } else {
+                    binding.timerTextView.clearAnimation()
+                }
             }
         }
     }
