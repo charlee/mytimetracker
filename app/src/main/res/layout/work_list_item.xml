@@ -6,6 +6,7 @@
 
     <data>
         <import type="com.intelliavant.mytimetracker.utils.UtilsKt"/>
+        <variable name="clickListener" type="android.view.View.OnClickListener"/>
         <variable name="work" type="com.intelliavant.mytimetracker.data.Work"/>
 
     </data>
@@ -14,7 +15,9 @@
         android:id="@+id/work_list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="56dp">
+        android:minHeight="56dp"
+        android:onClick="@{clickListener}"
+        >
 
         <View
             android:id="@+id/work_list_item_border"

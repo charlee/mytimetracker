@@ -39,6 +39,18 @@ class WorkListPagerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val viewPagerAdapter = WorkListPagerAdapter(requireActivity())
+        viewPagerAdapter.onResumeWorkListener = { workId ->
+            Log.d("STOPWATCH", "work $workId clicked")
+
+            lifecycleScope.launch {
+                // Start StopwatchService
+                StopwatchServiceUtils.startStopwatchService(requireContext(), workId)
+
+                // Move to stopwatch fragment
+                findNavController().navigate(R.id.action_workListFragment_to_stopwatchFragment)
+            }
+        }
+
         viewPager = view.findViewById(R.id.view_pager)
         viewPager.adapter = viewPagerAdapter
         viewPager.setCurrentItem(viewPagerAdapter.itemCount - 1, false)
@@ -71,7 +83,7 @@ class WorkListPagerFragment : Fragment() {
                     val workName = workType.name
 
                     // Start StopwatchService
-                    StopwatchServiceUtils.startStopwatchService(requireContext(), workId, workName, workType.color.toArgb())
+                    StopwatchServiceUtils.startStopwatchService(requireContext(), workId)
 
                     // Move to stopwatch fragment
                     findNavController().navigate(R.id.action_workListFragment_to_stopwatchFragment)

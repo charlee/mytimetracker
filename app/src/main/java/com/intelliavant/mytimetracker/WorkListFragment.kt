@@ -23,12 +23,16 @@ class WorkListFragment() : Fragment() {
     private lateinit var binding: FragmentWorkListBinding
     private val workListViewModel: WorkListViewModel by viewModels()
 
+    var onWorkClickListener: OnWorkClickListener?= null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         val adapter = WorkListAdapter()
+
+        adapter.onWorkClickListener = onWorkClickListener
 
         binding = FragmentWorkListBinding.inflate(inflater, container, false)
         binding.isWorkListVisible = false

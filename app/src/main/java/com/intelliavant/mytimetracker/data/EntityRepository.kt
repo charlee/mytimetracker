@@ -54,7 +54,7 @@ class WorkRepository @Inject constructor(private val workDao: WorkDao) {
         }
     }
 
-    fun findById(id: Long): Flow<WorkWithWorkType> {
+    fun findById(id: Long): WorkWithWorkType {
         return workDao.findById(id)
     }
 

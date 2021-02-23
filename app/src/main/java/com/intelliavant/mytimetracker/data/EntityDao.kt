@@ -23,7 +23,7 @@ interface WorkDao {
     fun findByDate(date: LocalDate): Flow<List<WorkWithWorkType>>
 
     @Query("SELECT * FROM work WHERE id=:id")
-    fun findById(id: Long): Flow<WorkWithWorkType>
+    fun findById(id: Long): WorkWithWorkType
 
     @Query("UPDATE work SET duration=:duration WHERE id=:id")
     fun updateDuration(id: Long, duration: Long)

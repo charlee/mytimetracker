@@ -26,14 +26,12 @@ class StopwatchServiceUtils {
             return false;
         }
 
-        fun startStopwatchService(context: Context, workId: Long, workName: String, color: Int) {
+        fun startStopwatchService(context: Context, workId: Long) {
             Log.d("STOPWATCH", "MainActivity::startStopwatch()")
 
             val serviceIntent = Intent(context, StopwatchService::class.java).apply {
                 action = context.getString(R.string.intent_action_start_stopwatch)
                 putExtra("work_id", workId)
-                putExtra("work_name", workName)
-                putExtra("color", color)
             }
             context.startService(serviceIntent)
         }

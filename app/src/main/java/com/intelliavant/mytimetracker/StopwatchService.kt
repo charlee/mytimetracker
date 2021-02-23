@@ -9,10 +9,14 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.common.base.Stopwatch
 import com.intelliavant.mytimetracker.data.AppDatabase
+import com.intelliavant.mytimetracker.data.WorkRepository
 import com.intelliavant.mytimetracker.utils.formatTime
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.observeOn
 import java.time.LocalTime
 import java.util.*
 import java.time.temporal.ChronoUnit.MILLIS
+import kotlin.coroutines.coroutineContext
 
 class StopwatchService : Service() {
     private val timer: Timer = Timer()
@@ -155,11 +159,20 @@ class StopwatchService : Service() {
         }
 
         if (intent?.action == getString(R.string.intent_action_start_stopwatch)) {
-            workName = intent.getStringExtra("work_name")
             workId = intent.getLongExtra("work_id", 0)
             Log.d("STOPWATCH", "workName=${workName}")
+            if (workId > 0) {
+                // TODO: should terminate the service if workId === 0
+                CoroutineScope(Dispatchers.IO).launch {
+                    val work = AppDatabase.getInstance(applicationContext).workDao().findById(workId)
+                    workName = work.work.name
+                    elapsedMillisecondsUntilLastStop = work.work.duration
+                    elapsedMilliseconds = work.work.duration
 
-            resume()
+                }
+            }
+
+//            resume()
         }
 
         if (intent?.action == getString(R.string.intent_action_query_state)) {

@@ -1,14 +1,19 @@
 package com.intelliavant.mytimetracker
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.intelliavant.mytimetracker.data.Work
 import com.intelliavant.mytimetracker.data.WorkWithWorkType
 import com.intelliavant.mytimetracker.databinding.WorkListItemBinding
 import com.intelliavant.mytimetracker.utils.formatTime
+
+
+typealias OnWorkClickListener = (workId: Long) -> Unit
 
 class WorkListAdapter() :
     ListAdapter<WorkWithWorkType, WorkListAdapter.ViewHolder>(
@@ -17,9 +22,18 @@ class WorkListAdapter() :
 
     var dateText: String = ""
 
-    class ViewHolder(private val binding: WorkListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    var onWorkClickListener: OnWorkClickListener? = null
+
+    inner class ViewHolder(private val binding: WorkListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
+            binding.setClickListener {
+                binding.work?.id?.let {
+                    // TODO
+                    onWorkClickListener?.invoke(it)
+                }
+            }
+
         }
 
         fun bind(work: WorkWithWorkType) {

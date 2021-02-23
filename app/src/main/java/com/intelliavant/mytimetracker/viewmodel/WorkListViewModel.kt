@@ -19,7 +19,7 @@ class WorkListViewModel @ViewModelInject internal constructor(private val workRe
     val works: LiveData<List<WorkWithWorkType>> = workRepository.getWorks().asLiveData()
 
     suspend fun createWork(name: String, workType: WorkType): Long {
-       return workRepository.createWork(name, workType)
+        return workRepository.createWork(name, workType)
     }
 
     suspend fun updateDuration(workId: Long, duration: Long) {
@@ -27,7 +27,6 @@ class WorkListViewModel @ViewModelInject internal constructor(private val workRe
 
     }
 
-    fun findById(id: Long): LiveData<WorkWithWorkType> = workRepository.findById(id).asLiveData()
-
-    fun findByDate(date: LocalDate): LiveData<List<WorkWithWorkType>> = workRepository.findByDate(date).asLiveData()
+    fun findByDate(date: LocalDate): LiveData<List<WorkWithWorkType>> =
+        workRepository.findByDate(date).asLiveData()
 }
