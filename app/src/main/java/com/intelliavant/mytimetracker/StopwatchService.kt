@@ -117,6 +117,7 @@ class StopwatchService : Service() {
             .setSmallIcon(R.drawable.ic_baseline_timer_24)
             .setContentIntent(contentIntent)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setOnlyAlertOnce(true)
             .setAutoCancel(false)
 
         // Create a pause/start button

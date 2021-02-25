@@ -34,11 +34,13 @@ class StopwatchFragment : Fragment() {
 
     private lateinit var binding: FragmentStopwatchBinding
 
+    private var isRunning = false
+
     private val broadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             intent?.extras?.apply {
                 val elapsedMilliseconds = getLong("elapsedMilliseconds")
-                val isRunning = getBoolean("isRunning")
+                isRunning = getBoolean("isRunning")
 
                 binding.workName = getString("workName")
                 binding.isRunning = isRunning
@@ -109,6 +111,11 @@ class StopwatchFragment : Fragment() {
     }
 
     fun stopWork() {
+        if (!isRunning) {
+            closeStopwatch()
+            return
+        }
+
         // TODO: replace with isNightModeActive after SDK upgrade
         val isNightMode =
             when (requireActivity().resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
@@ -123,13 +130,16 @@ class StopwatchFragment : Fragment() {
             .setMessage("Are you sure to stop this activity?")
             .setPositiveButton(R.string.stop) { dialog, _ ->
                 dialog.dismiss()
-                StopwatchServiceUtils.stopStopwatchService(requireContext())
-
-                findNavController().popBackStack()
+                closeStopwatch()
             }
             .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
             .setIcon(icon)
             .show()
 
+    }
+
+    fun closeStopwatch() {
+        StopwatchServiceUtils.stopStopwatchService(requireContext())
+        findNavController().popBackStack()
     }
 }
