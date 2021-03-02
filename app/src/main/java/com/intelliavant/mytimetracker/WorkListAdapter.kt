@@ -13,7 +13,7 @@ import com.intelliavant.mytimetracker.databinding.WorkListItemBinding
 import com.intelliavant.mytimetracker.utils.formatTime
 
 
-typealias OnWorkClickListener = (workId: Long) -> Unit
+typealias OnWorkClickListener = (work: Work) -> Unit
 
 class WorkListAdapter() :
     ListAdapter<WorkWithWorkType, WorkListAdapter.ViewHolder>(
@@ -28,8 +28,7 @@ class WorkListAdapter() :
 
         init {
             binding.setClickListener {
-                binding.work?.id?.let {
-                    // TODO
+                binding.work?.let {
                     onWorkClickListener?.invoke(it)
                 }
             }

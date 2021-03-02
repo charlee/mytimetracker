@@ -39,16 +39,22 @@ class WorkListPagerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val viewPagerAdapter = WorkListPagerAdapter(requireActivity())
-        viewPagerAdapter.onResumeWorkListener = { workId ->
-            Log.d("STOPWATCH", "work $workId clicked")
+        viewPagerAdapter.onResumeWorkListener = { work ->
+            Log.d("STOPWATCH", "work ${work.id} clicked")
 
-            lifecycleScope.launch {
-                // Start StopwatchService
-                StopwatchServiceUtils.startStopwatchService(requireContext(), workId)
+            // Only allow resuming today's activity
+            if (work.date.isEqual(LocalDate.now())) {
+                work.id?.let { workId ->
+                    lifecycleScope.launch {
+                        // Start StopwatchService
+                        StopwatchServiceUtils.startStopwatchService(requireContext(), workId)
 
-                // Move to stopwatch fragment
-                findNavController().navigate(R.id.action_workListFragment_to_stopwatchFragment)
+                        // Move to stopwatch fragment
+                        findNavController().navigate(R.id.action_workListFragment_to_stopwatchFragment)
+                    }
+                }
             }
+
         }
 
         viewPager = view.findViewById(R.id.view_pager)
