@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Focus</string>
+    <string name="action_settings">設定</string>
+    <string name="action_activity_types">活動タイプ</string>
+    <string name="work_list_fragment_label">活動一覧</string>
+    <string name="notification_channel_name">タイマー</string>
+    <string name="notification_channel_description">タイマー通知を表示する</string>
+    <string name="pause">一時停止</string>
+    <string name="resume">再開</string>
+    <string name="stop">停止</string>
+    <string name="choose_activity_type">活動タイプを選択してください</string>
+    <string name="today">今日</string>
+    <string name="yesterday">昨日</string>
+    <string name="no_activities">活動がありません</string>
+    <string name="share">公開</string>
+    <string name="stopwatch_fragment_label">タイマー</string>
+    <string name="settings_fragment_label">設定</string>
+    <string name="settings_activity_types_fragment_label">活動タイプを編集する</string>
+    <string name="new_work_type">活動タイプの新規作成</string>
+    <string name="save">保存</string>
+    <string name="color">色</string>
+    <string name="about">バージョン情報</string>
+    <string name="about_this_app">このアプリについて</string>
+    <string name="activity_types">活動タイプ</string>
+    <string name="add_or_change_activity_types">活動タイプの追加または変更</string>
+    <string name="activity_type_name">活動タイプの名前</string>
+    <string name="about_developer">開発者</string>
+    <string name="about_version">バージョン</string>
+    <string name="stopwatch_stop_activity">活動を停止</string>
+    <string name="stopwatch_stop_activity_confirm">この活動を停止しますか？</string>
+</resources>

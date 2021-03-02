@@ -38,4 +38,6 @@
     <string name="activity_type_name">Activity type name</string>
     <string name="about_developer">Developer</string>
     <string name="about_version">Version</string>
+    <string name="stopwatch_stop_activity">Stop Activity</string>
+    <string name="stopwatch_stop_activity_confirm">Are you sure to stop this activity?</string>
 </resources>

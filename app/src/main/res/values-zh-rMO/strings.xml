@@ -27,4 +27,6 @@
     <string name="activity_type_name">活動類型名稱</string>
     <string name="about_developer">開發商</string>
     <string name="about_version">版本</string>
+    <string name="stopwatch_stop_activity">停止活動</string>
+    <string name="stopwatch_stop_activity_confirm">確定要停止此活動嗎？</string>
 </resources>

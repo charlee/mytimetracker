@@ -126,8 +126,8 @@ class StopwatchFragment : Fragment() {
             if (isNightMode) R.drawable.ic_round_warning_24_night else R.drawable.ic_round_warning_24
 
         AlertDialog.Builder(requireActivity())
-            .setTitle("Stop activity")
-            .setMessage("Are you sure to stop this activity?")
+            .setTitle(getString(R.string.stopwatch_stop_activity))
+            .setMessage(getString(R.string.stopwatch_stop_activity_confirm))
             .setPositiveButton(R.string.stop) { dialog, _ ->
                 dialog.dismiss()
                 closeStopwatch()
