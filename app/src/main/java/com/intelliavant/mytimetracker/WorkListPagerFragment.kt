@@ -86,7 +86,6 @@ class WorkListPagerFragment : Fragment() {
                 Log.d("STOPWATCH", "workType ${workType.id} clicked")
                 lifecycleScope.launch {
                     val workId = workListViewModel.createWork(workType.name, workType)
-                    val workName = workType.name
 
                     // Start StopwatchService
                     StopwatchServiceUtils.startStopwatchService(requireContext(), workId)

@@ -2,10 +2,7 @@ package com.intelliavant.mytimetracker.data
 
 import android.graphics.Color
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import java.util.*
@@ -16,12 +13,15 @@ interface WorkDao {
     @Insert
     suspend fun insert(work: Work): Long
 
+    @Transaction
     @Query("SELECT * FROM work")
     fun getWorks(): Flow<List<WorkWithWorkType>>
 
+    @Transaction
     @Query("SELECT * FROM work WHERE date=:date")
     fun findByDate(date: LocalDate): Flow<List<WorkWithWorkType>>
 
+    @Transaction
     @Query("SELECT * FROM work WHERE id=:id")
     fun findById(id: Long): WorkWithWorkType
 

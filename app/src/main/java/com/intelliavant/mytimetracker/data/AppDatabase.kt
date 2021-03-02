@@ -1,7 +1,6 @@
 package com.intelliavant.mytimetracker.data
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Color
 import androidx.room.Database
 import androidx.room.Room
@@ -10,8 +9,6 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.intelliavant.mytimetracker.MainApplication
 import com.intelliavant.mytimetracker.R
-import com.intelliavant.mytimetracker.utils.ioThread
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -36,7 +33,6 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         private fun buildDatabase(context: Context): AppDatabase {
-            val context = MainApplication.context
             val colors = context.resources.getIntArray(R.array.work_type_colors)
 
             val prepopulatedWorkTypes = listOf(
