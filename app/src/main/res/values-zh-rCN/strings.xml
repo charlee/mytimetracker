@@ -25,4 +25,6 @@
     <string name="activity_types">活动类型</string>
     <string name="add_or_change_activity_types">添加或修改活动类型</string>
     <string name="activity_type_name">活动类型名称</string>
+    <string name="about_developer">开发商</string>
+    <string name="about_version">版本</string>
 </resources>

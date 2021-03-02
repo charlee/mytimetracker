@@ -3,11 +3,11 @@
 
     <Preference android:key="developer"
         android:summary="Intelliavant Technologies, Ltd"
-        android:title="Developer"/>
+        android:title="@string/about_developer"/>
 
     <Preference
         android:key="version"
         android:summary=""
-        android:title="Version"/>
+        android:title="@string/about_version"/>
 
 </PreferenceScreen>

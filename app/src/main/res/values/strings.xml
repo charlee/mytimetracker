@@ -36,4 +36,6 @@
     <string name="intent_action_pause_resume_stopwatch" translatable="false">INTENT_ACTION_PAUSE_RESUME_STOPWATCH</string>
     <string name="intent_action_time_elasped" translatable="false">INTENT_ACTION_TIME_ELASPED</string>
     <string name="activity_type_name">Activity type name</string>
+    <string name="about_developer">Developer</string>
+    <string name="about_version">Version</string>
 </resources>

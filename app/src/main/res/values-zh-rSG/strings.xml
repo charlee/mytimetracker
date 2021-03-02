@@ -1,4 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Focus</string>
+    <string name="action_settings">设置</string>
+    <string name="action_activity_types">活动类型</string>
+    <string name="work_list_fragment_label">活动列表</string>
+    <string name="notification_channel_name">计时器</string>
+    <string name="notification_channel_description">显示计时器通知</string>
+    <string name="pause">暂停</string>
+    <string name="resume">恢复</string>
+    <string name="stop">停止</string>
+    <string name="choose_activity_type">选择活动类型</string>
+    <string name="today">今天</string>
+    <string name="yesterday">昨天</string>
+    <string name="no_activities">没有活动</string>
+    <string name="share">分享</string>
+    <string name="stopwatch_fragment_label">计时器</string>
+    <string name="settings_fragment_label">设置</string>
+    <string name="settings_activity_types_fragment_label">编辑活动类型</string>
+    <string name="new_work_type">新建活动类型</string>
+    <string name="save">保存</string>
+    <string name="color">颜色</string>
+    <string name="about">关于</string>
+    <string name="about_this_app">关于此应用</string>
+    <string name="activity_types">活动类型</string>
+    <string name="add_or_change_activity_types">添加或修改活动类型</string>
+    <string name="activity_type_name">活动类型名称</string>
+    <string name="about_developer">开发商</string>
+    <string name="about_version">版本</string>
 </resources>
