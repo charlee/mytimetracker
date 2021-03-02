@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Focus</string>
+    <string name="action_settings">設定</string>
+    <string name="action_activity_types">活動類型</string>
+    <string name="work_list_fragment_label">活動清單</string>
+    <string name="notification_channel_name">計時器</string>
+    <string name="notification_channel_description">顯示計時器通知</string>
+    <string name="pause">暫停</string>
+    <string name="resume">恢復</string>
+    <string name="stop">停止</string>
+    <string name="choose_activity_type">選擇活動類型</string>
+    <string name="today">今天</string>
+    <string name="yesterday">昨天</string>
+    <string name="no_activities">沒有活動</string>
+    <string name="share">分享</string>
+    <string name="stopwatch_fragment_label">計時器</string>
+    <string name="settings_fragment_label">設定</string>
+    <string name="new_work_type">建立新的活動類型</string>
+    <string name="settings_activity_types_fragment_label">編輯活動類型</string>
+    <string name="save">儲存</string>
+    <string name="color">色彩</string>
+    <string name="about">關於</string>
+    <string name="about_this_app">關於本應用程式</string>
+    <string name="activity_types">活動類型</string>
+    <string name="add_or_change_activity_types">新增或變更活動類型</string>
+    <string name="activity_type_name">活動類型名稱</string>
+</resources>
