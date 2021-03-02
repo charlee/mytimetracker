@@ -3,54 +3,20 @@
     <string name="action_settings">Settings</string>
     <string name="action_activity_types">Activity Types</string>
 
-    <!-- Strings used for fragments for navigation -->
     <string name="work_list_fragment_label">Activities</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-
-    <string name="notification_channel_id">com.intelliavant.mytimetracker/stopwatch_channel</string>
     <string name="notification_channel_name">Stopwatch</string>
     <string name="notification_channel_description">Show stopwatch notification</string>
     <string name="pause">Pause</string>
     <string name="resume">Resume</string>
     <string name="stop">Stop</string>
 
-    <string name="intent_action_start_stopwatch">INTENT_ACTION_START_STOPWATCH</string>
-    <string name="intent_action_query_state">INTENT_ACTION_QUERY_STATE</string>
-    <string name="intent_action_pause_resume_stopwatch">INTENT_ACTION_PAUSE_RESUME_STOPWATCH</string>
-    <string name="intent_action_time_elasped">INTENT_ACTION_TIME_ELASPED</string>
     <string name="choose_activity_type">Choose activity type</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_stopwatch">StopwatchActivity</string>
-    <!--
-    This string is used for square devices and overridden by hello_world in
-    values-round/strings.xml for round devices.
-    -->
-    <string name="hello_world">Hello Square World!</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="no_activities">No activities</string>
     <string name="share">Share</string>
-    <string name="title_activity_settings">SettingsActivity</string>
 
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
-
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="stopwatch_fragment_label">Stopwatch</string>
     <string name="settings_fragment_label">Settings</string>
     <string name="settings_activity_types_fragment_label">Edit Activity Types</string>
@@ -61,4 +27,13 @@
     <string name="about_this_app">About this app</string>
     <string name="activity_types">Activity types</string>
     <string name="add_or_change_activity_types">Add or change activity types</string>
+
+
+    <!-- Non-translatable strings -->
+    <string name="notification_channel_id" translatable="false">com.intelliavant.mytimetracker/stopwatch_channel</string>
+    <string name="intent_action_start_stopwatch" translatable="false">INTENT_ACTION_START_STOPWATCH</string>
+    <string name="intent_action_query_state" translatable="false">INTENT_ACTION_QUERY_STATE</string>
+    <string name="intent_action_pause_resume_stopwatch" translatable="false">INTENT_ACTION_PAUSE_RESUME_STOPWATCH</string>
+    <string name="intent_action_time_elasped" translatable="false">INTENT_ACTION_TIME_ELASPED</string>
+    <string name="activity_type_name">Activity type name</string>
 </resources>
