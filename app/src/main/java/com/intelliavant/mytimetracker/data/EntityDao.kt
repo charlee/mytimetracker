@@ -25,7 +25,8 @@ interface WorkDao {
     @Query("SELECT * FROM work WHERE id=:id")
     fun findById(id: Long): WorkWithWorkType
 
-    @Query("UPDATE work SET duration=:duration WHERE id=:id")
+    // Guard the update with duration<:duration to prevent time reset
+    @Query("UPDATE work SET duration=:duration WHERE id=:id AND duration<:duration")
     fun updateDuration(id: Long, duration: Long)
 }
 
