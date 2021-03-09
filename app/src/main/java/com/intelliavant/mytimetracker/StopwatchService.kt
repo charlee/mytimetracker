@@ -13,6 +13,7 @@ import com.intelliavant.mytimetracker.data.WorkRepository
 import com.intelliavant.mytimetracker.utils.formatTime
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.observeOn
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.util.*
 import java.time.temporal.ChronoUnit.MILLIS
@@ -28,7 +29,7 @@ class StopwatchService : Service() {
 
     private val binder = StopwatchServiceBinder()
 
-    private  var startTime: LocalTime? = null
+    private  var startTime: LocalDateTime? = null
     private var elapsedMillisecondsUntilLastStop: Long = 0
     private var elapsedMilliseconds: Long = 0
     private var isRunning: Boolean = false
@@ -39,7 +40,7 @@ class StopwatchService : Service() {
 
     private fun updateElapsedMilliseconds() {
         startTime?.let {
-            elapsedMilliseconds = elapsedMillisecondsUntilLastStop + it.until(LocalTime.now(), MILLIS)
+            elapsedMilliseconds = elapsedMillisecondsUntilLastStop + it.until(LocalDateTime.now(), MILLIS)
         }
     }
 
@@ -200,7 +201,7 @@ class StopwatchService : Service() {
         Log.d("STOPWATCH", "StopwatchService.resume() called")
         if (!isRunning) {
             isRunning = true
-            startTime = LocalTime.now()
+            startTime = LocalDateTime.now()
 
             broadcastStatus()
             updateNotification()
